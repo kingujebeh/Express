@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/data", (req, res) => {
     res.json({
         name: "Unknown",
         body: {
@@ -12,5 +12,6 @@ router.get("/", (req, res) => {
 
     });
 });
+
 
 module.exports = router;
