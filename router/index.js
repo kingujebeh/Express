@@ -1,5 +1,12 @@
+const data = require("../data");
 const express = require("express");
 const router = express.Router();
+
+console.log(data);
+
+router.get("/", (req, res) => {
+  res.send("Opening " + req.headers.host);
+});
 
 router.get("/data", (req, res) => {
   res.json({
@@ -20,7 +27,32 @@ router.get("/data", (req, res) => {
         },
       ],
       kingdoms: [
-        { id: "large", list: [{ id: "africa" }, { id: "britain" }] },
+        {
+          id: "large",
+          list: [
+            {
+              id: "africa",
+              name: "Africa",
+              body: {
+                software,
+                people: {
+                  professionals,
+                  students,
+                  nations,
+                },
+                communities,
+                market,
+                institutions,
+                competitions,
+              },
+              info: {
+                currency,
+                places,
+              },
+            },
+            { id: "britain" },
+          ],
+        },
         { id: "medium", list: [{ id: "benin" }] },
         { id: "small" },
       ],
