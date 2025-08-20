@@ -4,7 +4,12 @@ const fn = require("../functions");
 const home = async (req, res) => {
   console.log(req.headers.host);
   const subname = fn.getSubname(req.headers.host);
-  const filePath = req.path;
+
+  // normalize path before calling getFile
+  let filePath = req.path;
+  if (filePath === "/" || filePath === "") {
+    filePath = "/index.html";
+  }
 
   console.info(req.headers.host, subname);
   const file = fn.getFile("unknown", "default", filePath);
@@ -12,13 +17,11 @@ const home = async (req, res) => {
   if (!exists) return res.status(404).send("App not found");
 
   const contentType = mime.lookup(file.name) || "application/octet-stream";
-
   const [buffer] = await file.download();
-
   let output = buffer;
 
-  let normalizedPath = filePath;
-  if (normalizedPath.endsWith("index.html")) {
+  // inject into index.html
+  if (filePath.endsWith("index.html")) {
     let html = buffer.toString("utf8");
     html = html.replace(
       /<\/head>/i,
@@ -27,7 +30,8 @@ const home = async (req, res) => {
     output = Buffer.from(html, "utf8");
   }
 
-  if (/\.(html|js|css)$/.test(normalizedPath)) {
+  // set caching headers
+  if (/\.(html|js|css)$/.test(filePath)) {
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
