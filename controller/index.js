@@ -2,6 +2,8 @@ const path = require("path");
 const mime = require("mime-types");
 const fn = require("../functions");
 
+const { real } = require("../data");
+
 const home = async (req, res) => {
   const host = req.headers.host;
   const subname = fn.getSubname(host);
@@ -52,7 +54,7 @@ const home = async (req, res) => {
 };
 
 const data = async (req, res) => {
-  res.json();
+  res.json(real);
 };
 
 module.exports = { home, data };
