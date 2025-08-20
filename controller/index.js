@@ -1,3 +1,4 @@
+const mime = require("mime-types");
 const fn = require("../functions");
 
 const home = async (req, res) => {

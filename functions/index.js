@@ -1,5 +1,6 @@
 const path = require("path");
 const { Storage } = require("@google-cloud/storage");
+
 const { domains } = require("../data");
 console.log(domains);
 
