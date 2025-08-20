@@ -17,16 +17,17 @@ const home = async (req, res) => {
 
   let output = buffer;
 
-  // Detect index.html to inject app type
-  if (filePath.endsWith("index.html")) {
-    let html = buffer.toString("utf8");
+  let normalizedPath = filePath;
+  if (normalizedPath === "/" || normalizedPath === "") {
+    normalizedPath = "/index.html";
+  }
 
-    // Example: inject <script> with global var before </head>
+  if (normalizedPath.endsWith("index.html")) {
+    let html = buffer.toString("utf8");
     html = html.replace(
       "</head>",
-      `<script>window.APP_TYPE=${JSON.stringify(fn.getSubname(req.headers.host))};</script></head>`
+      `<script>window.APP_TYPE=${JSON.stringify(subname)};</script></head>`
     );
-
     output = Buffer.from(html, "utf8");
   }
 
@@ -39,7 +40,6 @@ const home = async (req, res) => {
   }
 
   res.type(contentType).send(output);
-
 };
 
 const data = async (req, res) => {
