@@ -1,6 +1,7 @@
 const fn = require("../functions");
 
 const home = async (req, res) => {
+  res.send('HAHHAHA')
   const subname = fn.getSubname(req.headers.host);
   const filePath = req.path;
 
@@ -23,7 +24,7 @@ const home = async (req, res) => {
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
   }
 
-  res.type(contentType).send(buffer);
+  // res.type(contentType).send(buffer);
 };
 
 module.exports = { home };
