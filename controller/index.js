@@ -52,7 +52,7 @@ const home = async (req, res) => {
 };
 
 const data = async (req, res) => {
-  res.json({ data: "data" });
+  res.json();
 };
 
 module.exports = { home, data };

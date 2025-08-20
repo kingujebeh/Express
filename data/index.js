@@ -37,7 +37,7 @@ const unknown = {
                 students: [],
                 nations: [],
               },
-              communities: [],
+              communities: ["Software", "Engineering", "Design"],
               market: [],
               institutions: [],
               competitions: [],
@@ -71,4 +71,49 @@ const unknown = {
     ],
   },
 };
-module.exports = { domains, unknown };
+
+const real = {
+  apps: [
+    {
+      name: "WA Admin",
+      domain: "wa-admin.one",
+    },
+  ],
+  kingdoms: [
+    {
+      id: "africa",
+      name: "Africa",
+    },
+    {
+      id: "benin",
+      name: "Benin",
+    },
+    {
+      id: "britain",
+      name: "Britain",
+    },
+  ],
+  professionals: [
+    {
+      username: "creatyve3d",
+      name: "Creatyve 3D",
+      domain: "creatyve3d.pro",
+    },
+  ],
+  stores: [
+    {
+      id: "yatsar",
+      name: "Yatsar",
+      domain: "yatsar.store",
+    },
+  ],
+  shops: [
+    {
+      id: "osaseng",
+      name: "Osas Engineering",
+      domain: "osasengineering.shop",
+    },
+  ],
+};
+
+module.exports = { domains, unknown, real };
