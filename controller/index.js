@@ -15,21 +15,37 @@ const home = async (req, res) => {
 
   const [buffer] = await file.download();
 
+  let output = buffer;
+
+  // Detect index.html to inject app type
+  if (filePath.endsWith("index.html")) {
+    const appType = fn.getSubname(req.headers.host) || "UNDEFINED"; // <- your logic
+    let html = buffer.toString("utf8");
+
+    // Example: inject <script> with global var before </head>
+    html = html.replace(
+      "</head>",
+      `<script>window.APP_TYPE=${JSON.stringify(appType)};</script></head>`
+    );
+
+    output = Buffer.from(html, "utf8");
+  }
+
   if (/\.(html|js|css)$/.test(filePath)) {
-    // No caching for HTML, JS, CSS
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
   } else {
-    // Optional: long-term cache for other static assets like images
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
   }
+
+  res.type(contentType).send(output);
 
   res.type(contentType).send(buffer);
 };
 
 const data = async (req, res) => {
   res.json({ data: "data" });
-}
+};
 
 module.exports = { home, data };

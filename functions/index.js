@@ -24,4 +24,5 @@ function getFile(projectID, subname, reqPath) {
   return bucket.file(path.join(prefix, projectID, subname, "dist", filePath));
 }
 
+
 module.exports = { getSubname, getFile };

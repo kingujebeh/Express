@@ -1,6 +1,10 @@
 const domains = {
   community: ["augmentplus.space"],
   kingdom: ["marblelimit.com"],
+  shop: ["osasengineering.shop"],
+  store: ["yatsar.store"],
+  pro: ["creatyve3d.pro"],
+  app: ["wa-admin.one"],
 };
 const unknown = {
   name: "Unknown",
