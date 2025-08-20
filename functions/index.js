@@ -10,7 +10,7 @@ function getSubname(domain) {
 const bucket = new Storage().bucket("supercpanel");
 
 function getFile(projectID, subname, reqPath) {
-  filePath = decodeURIComponent(reqPath);
+  let cleaned = decodeURIComponent(reqPath);
 
   // organize by first letter to shard if desired
   const prefix = projectID[0];
