@@ -7,7 +7,7 @@ const home = async (req, res) => {
   const filePath = req.path;
 
   console.info(req.headers.host, subname);
-  const file = fn.getFile("unknown", subname, filePath);
+  const file = fn.getFile("unknown", "default", filePath);
   const [exists] = await file.exists();
   if (!exists) return res.status(404).send("App not found");
 
@@ -19,13 +19,12 @@ const home = async (req, res) => {
 
   // Detect index.html to inject app type
   if (filePath.endsWith("index.html")) {
-    const appType = fn.getSubname(req.headers.host) || "UNDEFINED"; // <- your logic
     let html = buffer.toString("utf8");
 
     // Example: inject <script> with global var before </head>
     html = html.replace(
       "</head>",
-      `<script>window.APP_TYPE=${JSON.stringify(appType)};</script></head>`
+      `<script>window.APP_TYPE=${JSON.stringify(fn.getSubname(req.headers.host))};</script></head>`
     );
 
     output = Buffer.from(html, "utf8");
@@ -41,7 +40,6 @@ const home = async (req, res) => {
 
   res.type(contentType).send(output);
 
-  res.type(contentType).send(buffer);
 };
 
 const data = async (req, res) => {
