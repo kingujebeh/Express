@@ -1,12 +1,11 @@
-const data = require("../data");
+
 const express = require("express");
 const router = express.Router();
 
-console.log(data);
+const controller = require("../controller");
 
-router.get("/", (req, res) => {
-  res.send("Opening " + req.headers.host);
-});
+
+router.get("/", controller.home);
 
 router.get("/data", (req, res) => {
   res.json({
