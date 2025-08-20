@@ -1,10 +1,10 @@
-const path = require("path")
+const path = require("path");
 const { Storage } = require("@google-cloud/storage");
-const data = require("../data");
-console.log(data);
+const { domains } = require("../data");
+console.log(domains);
 
 function getSubname(domain) {
-  return Object.keys(data).filter((key) => data[key].includes(domain));
+  return Object.keys(domains).filter((key) => domains[key].includes(domain));
 }
 
 const bucket = new Storage().bucket("supercpanel");

@@ -27,4 +27,8 @@ const home = async (req, res) => {
   res.type(contentType).send(buffer);
 };
 
-module.exports = { home };
+const data = async (req, res) => {
+  res.json({ data: "data" });
+}
+
+module.exports = { home, data };
