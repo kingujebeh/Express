@@ -1,6 +1,7 @@
 const fn = require("../functions");
 
 const home = async (req, res) => {
+  console.log(req.headers.host);
   const subname = fn.getSubname(req.headers.host);
   const filePath = req.path;
 
