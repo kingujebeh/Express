@@ -4,7 +4,7 @@ const { domains } = require("../data");
 console.log(domains);
 
 function getSubname(domain) {
-  return Object.keys(domains).filter((key) => domains[key].includes(domain));
+  return Object.keys(domains).filter((key) => domains[key].includes(domain))[0];
 }
 
 const bucket = new Storage().bucket("supercpanel");
