@@ -18,20 +18,16 @@ const home = async (req, res) => {
   let output = buffer;
 
   let normalizedPath = filePath;
-  if (normalizedPath === "/" || normalizedPath === "") {
-    normalizedPath = "/index.html";
-  }
-
   if (normalizedPath.endsWith("index.html")) {
     let html = buffer.toString("utf8");
     html = html.replace(
-      "</head>",
+      /<\/head>/i,
       `<script>window.APP_TYPE=${JSON.stringify(subname)};</script></head>`
     );
     output = Buffer.from(html, "utf8");
   }
 
-  if (/\.(html|js|css)$/.test(filePath)) {
+  if (/\.(html|js|css)$/.test(normalizedPath)) {
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
