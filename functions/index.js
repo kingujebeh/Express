@@ -13,8 +13,6 @@ const bucket = new Storage().bucket("supercpanel");
 function getFile(subname, reqPath) {
   let cleaned = decodeURIComponent(reqPath);
 
-  // organize by first letter to shard if desired
-
   // If path appears to be a file (has extension), use it; else fallback to index.html
   const hasExt = path.extname(cleaned) !== "";
   const filePath = hasExt ? cleaned : path.join("index.html");

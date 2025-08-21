@@ -1,19 +1,22 @@
 const express = require("express");
 
+const core = require("./core");
+
 const middlewares = require("./middlewares");
 const router = require("./router");
 
 const app = express();
 
-
 app.set("trust proxy", true);
 
-
-app.use(middlewares)
-app.use(router)
+app.use(middlewares);
+app.use(router);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log("Unknown Server Running", PORT);
-});
+(async () => {
+  await core.init();
+  app.listen(PORT, () => {
+    console.log("Unknown Server Running", PORT);
+  });
+})();

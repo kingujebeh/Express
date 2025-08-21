@@ -1,3 +1,5 @@
+const git = require("./git");
+
 const path = require("path");
 const mime = require("mime-types");
 const fn = require("../functions");
@@ -57,4 +59,4 @@ const data = async (req, res) => {
   res.json(real);
 };
 
-module.exports = { home, data };
+module.exports = { home, data, ...git };
