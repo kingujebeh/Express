@@ -2,8 +2,16 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 
+const { domains } = require("../data");
+
+let domainslist = [];
+
+for (let [key, list] of Object.entries(domains)) {
+  domainslist.push(...list);
+}
+
 const httpsRedirect = (req, res, next) => {
-  if (!allowedHosts.includes(req.headers.host)) {
+  if (!domainslist.includes(req.headers.host)) {
     console.warn(`Blocked request from host: ${req.headers.host}`);
     return res.status(403).send("Forbidden");
   }
