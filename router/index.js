@@ -5,6 +5,9 @@ const controller = require("../controller");
 
 router.get("/data", controller.data);
 
+// User
+router.get("/user", (req, res) => {});
+
 // Git Commits
 router.post("/commit", controller.commit);
 

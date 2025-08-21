@@ -10,7 +10,8 @@ const app = express();
 app.set("trust proxy", true);
 
 app.use(middlewares);
-app.use(router);
+
+app.use("/api", router);
 
 const PORT = process.env.PORT || 3000;
 
