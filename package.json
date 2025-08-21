@@ -1,6 +1,6 @@
 {
-  "name": "main-cloud",
-  "version": "1.0.0",
+  "name": "unknown",
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
