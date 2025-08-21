@@ -14,8 +14,8 @@ const home = async (req, res) => {
   // If no extension, always serve index.html (SPA)
   let filePath = hasExt ? reqPath : "/index.html";
 
-  let file = fn.getFile( 'u',"unknown", "default", "dist", subname, filePath);
-  console.log(file)
+  let file = fn.getFile("u", "unknown", "default", "dist", subname, filePath);
+  console.log(file);
   let [exists] = await file.exists();
 
   // If an asset was requested and doesn't exist, 404
