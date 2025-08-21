@@ -7,6 +7,8 @@ async function getSecret(secretName) {
     name: `projects/28739726663/secrets/${secretName}/versions/latest`,
   });
 
+  console.log(version.payload.data.toString("utf8"));
+
   return version.payload.data.toString("utf8");
 }
 
