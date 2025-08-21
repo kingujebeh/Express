@@ -14,8 +14,7 @@ const home = async (req, res) => {
   // If no extension, always serve index.html (SPA)
   let filePath = hasExt ? reqPath : "/index.html";
 
-  console.log("unknown", "default", "dist", subname, filePath)
-  let file = fn.getFile("unknown", "default", "dist", subname, filePath);
+  let file = fn.getFile( 'u',"unknown", "default", "dist", subname, filePath);
   console.log(file)
   let [exists] = await file.exists();
 
