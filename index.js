@@ -1,14 +1,15 @@
 const express = require("express");
-const morgan = require("morgan");
-const cors = require("cors");
 
+const middlewares = require("./middlewares");
 const router = require("./router");
 
 const app = express();
 
-app.use(cors());
-app.use(morgan("common"));
 
+app.set("trust proxy", true);
+
+
+app.use(middlewares)
 app.use(router)
 
 const PORT = process.env.PORT || 3000;
