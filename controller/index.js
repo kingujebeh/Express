@@ -31,17 +31,6 @@ const home = async (req, res) => {
 
   const contentType = mime.lookup(file.name) || "application/octet-stream";
   const [buffer] = await file.download();
-  let output = buffer;
-
-  // Inject only when serving index.html
-  if (filePath.endsWith("index.html")) {
-    let html = buffer.toString("utf8");
-    html = html.replace(
-      /<\/head>/i,
-      `<script>window.SOFTWARE=${JSON.stringify(subname)};</script></head>`
-    );
-    output = Buffer.from(html, "utf8");
-  }
 
   // Cache: HTML no-cache; otherwise immutable long cache
   if (contentType === "text/html" || /\.html$/i.test(filePath)) {
@@ -52,7 +41,7 @@ const home = async (req, res) => {
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
   }
 
-  res.type(contentType).send(output);
+  res.type(contentType).send(buffer);
 };
 
 const data = async (req, res) => {
