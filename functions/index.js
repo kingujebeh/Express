@@ -10,7 +10,7 @@ function getSubname(domain) {
 
 const bucket = new Storage().bucket("supercpanel");
 
-function getFile(projectID, subname, reqPath) {
+function getFile(subname, reqPath) {
   let cleaned = decodeURIComponent(reqPath);
 
   // organize by first letter to shard if desired
@@ -20,9 +20,8 @@ function getFile(projectID, subname, reqPath) {
   const hasExt = path.extname(cleaned) !== "";
   const filePath = hasExt ? cleaned : path.join("index.html");
 
-  console.log(prefix, projectID, subname, "dist", filePath);
+  console.log("u", "unknown", "default", "dist", subname, filePath);
   return bucket.file(path.join(prefix, projectID, subname, "dist", filePath));
 }
-
 
 module.exports = { getSubname, getFile };
