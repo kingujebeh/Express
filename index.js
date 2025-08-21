@@ -15,7 +15,7 @@ app.use(middlewares);
 app.use("/api", router);
 
 // Catch All Exceptions
-router.all("/{*any}", home);
+app.all("/{*any}", home);
 
 const PORT = process.env.PORT || 3000;
 
