@@ -48,7 +48,7 @@ async function uploadRepoDist(gitURL) {
       current.timestamp !== timestamp;
 
     if (!needsUpdate) {
-      console.log(`ℹ️ No update needed for ${subname}`);
+      console.log(`ℹ️ No update needed`);
       return;
     }
 
@@ -74,7 +74,7 @@ async function uploadRepoDist(gitURL) {
         { headers }
       );
 
-      const filePath = `${id[0]}/${id}/${subname}/dist/${file.path.replace(
+      const filePath = `u/unknown/default/dist/${file.path.replace(
         /^dist\//,
         ""
       )}`;
@@ -98,10 +98,10 @@ async function uploadRepoDist(gitURL) {
       metadata: { contentType: "application/json" },
     });
 
-    console.log(`✅ Uploaded dist folder for ${subname} (${commit})`);
+    console.log(`✅ Uploaded dist folder for commit (${commit})`);
   } catch (error) {
     console.error(
-      `❌ Error processing ${subname}:`,
+      `❌ Error processing:`,
       error.response?.data || error.message
     );
   }
