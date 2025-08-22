@@ -5,6 +5,7 @@ const domains = {
   store: ["yatsar.store"],
   pro: ["creatyve3d.pro"],
   app: ["wa-admin.one"],
+  unknown: ["supercpanel.nw.r.appspot.com"],
 };
 
 const users = [

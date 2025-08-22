@@ -3,6 +3,7 @@ const { Storage } = require("@google-cloud/storage");
 const git = require("./git");
 
 const { domains } = require("../data");
+
 console.log(domains);
 
 function getSubname(domain) {
