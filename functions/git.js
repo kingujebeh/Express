@@ -12,7 +12,7 @@ async function uploadRepoDist(gitURL) {
   const [_, __, ___, owner, repo] = gitURL.split("/");
 
   const token = await getSecret("GIT_TOKEN");
-  console.log("Token:", token);
+
   const headers = {
     Authorization: `Bearer ${token}`,
     Accept: "application/vnd.github+json",
@@ -36,21 +36,6 @@ async function uploadRepoDist(gitURL) {
       .toISOString()
       .replace(/[-:T.Z]/g, "")
       .slice(0, 14);
-
-    // Step 3: Check current version in storage
-    const infoURL = `https://storage.googleapis.com/${bucketName}/u/unknown/default/dist/info.json`;
-    const current = await getCurrentClientStorageInfo(infoURL);
-
-    const needsUpdate =
-      !current.commit ||
-      !current.timestamp ||
-      current.commit !== commit ||
-      current.timestamp !== timestamp;
-
-    if (!needsUpdate) {
-      console.log(`ℹ️ No update needed`);
-      return;
-    }
 
     // Step 4: Get dist folder contents
     const treeRes = await axios.get(
@@ -104,20 +89,6 @@ async function uploadRepoDist(gitURL) {
       `❌ Error processing:`,
       error.response?.data || error.message
     );
-  }
-}
-
-async function getCurrentClientStorageInfo(infoURL) {
-  try {
-    const res = await axios.get(infoURL, { responseType: "json" });
-    const { commit, timestamp } = res.data || {};
-    return {
-      commit: commit || "",
-      timestamp: timestamp || "",
-    };
-  } catch (err) {
-    console.warn(`⚠️ Could not fetch info.json at ${infoURL}:`, err.message);
-    return { commit: "", timestamp: "" };
   }
 }
 
