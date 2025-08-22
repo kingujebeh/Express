@@ -1,11 +1,11 @@
 const domains = {
   community: ["augmentplus.space"],
   kingdom: ["marblelimit.com"],
+  business: ["gkrane.online"],
   shop: ["osasengineering.shop"],
   store: ["yatsar.store"],
   pro: ["creatyve3d.pro"],
-  app: ["wa-admin.one"],
-  unknown: ["supercpanel.nw.r.appspot.com"],
+  me: ["supercpanel.nw.r.appspot.com"],
 };
 
 const users = [
