@@ -11,10 +11,10 @@ const bucket = new Storage().bucket(bucketName);
 async function uploadRepoDist(gitURL) {
   const [_, __, ___, owner, repo] = gitURL.split("/");
 
-  const token = getSecret("GIT_TOKEN");
+  const token = await getSecret("GIT_TOKEN");
   console.log("Token:", token);
   const headers = {
-    Authorization: `Bearer ${gitToken}`,
+    Authorization: `Bearer ${token}`,
     Accept: "application/vnd.github+json",
   };
 
