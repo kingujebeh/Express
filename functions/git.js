@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { Storage } = require("@google-cloud/storage");
-const { token: gitToken } = require("../secrets");
+const { gitToken } = require("../secrets");
 
 const mime = require("mime-types");
 
@@ -10,10 +10,10 @@ const bucket = new Storage().bucket(bucketName);
 
 async function uploadRepoDist(gitURL) {
   const [_, __, ___, owner, repo] = gitURL.split("/");
-  console.log("Token", token);
+  console.log("Token", gitToken);
 
   const headers = {
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${gitToken}`,
     Accept: "application/vnd.github+json",
   };
 
