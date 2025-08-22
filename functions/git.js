@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { Storage } = require("@google-cloud/storage");
-const { gitToken } = require("../secrets");
+const { getSecret } = require("../secrets");
 
 const mime = require("mime-types");
 
@@ -10,8 +10,9 @@ const bucket = new Storage().bucket(bucketName);
 
 async function uploadRepoDist(gitURL) {
   const [_, __, ___, owner, repo] = gitURL.split("/");
-  console.log("Token", gitToken);
 
+  const token = getSecret("GIT_TOKEN");
+  console.log("Token:", token);
   const headers = {
     Authorization: `Bearer ${gitToken}`,
     Accept: "application/vnd.github+json",
@@ -37,7 +38,7 @@ async function uploadRepoDist(gitURL) {
       .slice(0, 14);
 
     // Step 3: Check current version in storage
-    const infoURL = `https://storage.googleapis.com/${bucketName}/${id[0]}/${id}/${subname}/dist/info.json`;
+    const infoURL = `https://storage.googleapis.com/${bucketName}/u/unknown/default/dist/info.json`;
     const current = await getCurrentClientStorageInfo(infoURL);
 
     const needsUpdate =

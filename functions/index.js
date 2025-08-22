@@ -21,7 +21,7 @@ function getFile(subname, reqPath) {
 
   console.log(subname, reqPath);
   return bucket.file(
-    path.join("u", "unknown", "default", "dist", subname, filePath)
+    path.join("u", "unknown", "default", "dist", subname || "me", filePath)
   );
 }
 
