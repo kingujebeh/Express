@@ -1,6 +1,5 @@
 const path = require("path");
 const { Storage } = require("@google-cloud/storage");
-const git = require("./git");
 
 const { domains } = require("../data");
 
@@ -23,9 +22,7 @@ function getFile(subname, reqPath) {
 
   console.log(subname, reqPath);
 
-  return bucket.file(
-    path.join("u", "unknown", "default", "dist", subname, filePath)
-  );
+  return bucket.file(path.join("client", "dist", subname, filePath));
 }
 
-module.exports = { getSubname, getFile, ...git };
+module.exports = { getSubname, getFile };
