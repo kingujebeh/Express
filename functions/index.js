@@ -9,7 +9,7 @@ function getSubname(domain) {
   return Object.keys(domains).filter((key) => domains[key].includes(domain))[0];
 }
 
-const bucket = new Storage().bucket("great-unknown");
+const bucket = new Storage().bucket("great-unknown.appspot.com");
 
 function getFile(subname, reqPath) {
   let cleaned = decodeURIComponent(reqPath);
