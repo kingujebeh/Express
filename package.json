@@ -1,16 +1,15 @@
 {
   "name": "unknown",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js"
   },
-  "author": "",
+  "author": "Augment Plus",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@google-cloud/secret-manager": "^6.1.0",
     "@google-cloud/storage": "^7.17.0",
     "axios": "^1.11.0",
     "cors": "^2.8.5",
