@@ -16,7 +16,7 @@ const httpsRedirect = (req, res, next) => {
 module.exports = [
   httpsRedirect,
   cors(),
-  morgan("common"),
+  morgan("tiny"),
   express.json(),
   express.urlencoded({ extended: true }),
 ];
