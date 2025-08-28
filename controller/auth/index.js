@@ -4,6 +4,7 @@ const fn = require("../../functions");
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const auth = async (req, res) => {
+  console.log(req.body, process.env.GOOGLE_CLIENT_ID);
   try {
     const { token } = req.body;
 
