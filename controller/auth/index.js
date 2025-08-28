@@ -14,17 +14,18 @@ const auth = async (req, res) => {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    const payload = ticket.getPayload();
-    const user = {
-      id: payload.sub,
-      email: payload.email,
-      name: payload.name,
-      picture: payload.picture,
-    };
+    console.log(ticket)
+    // const payload = ticket.getPayload();
+    // const user = {
+    //   id: payload.sub,
+    //   email: payload.email,
+    //   name: payload.name,
+    //   picture: payload.picture,
+    // };
 
     //   fn.signIn(token);
 
-    res.send(user, payload);
+    res.send(ticket);
   } catch (err) {
     res.status(401).send(err);
   }
