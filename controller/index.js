@@ -4,6 +4,8 @@ const fn = require("../functions");
 
 const { real } = require("../data");
 
+const auth = require("./auth");
+
 const home = async (req, res) => {
   const host = req.headers.host;
   const subname = fn.getSubname(host);
@@ -46,4 +48,4 @@ const data = async (req, res) => {
   res.json(real);
 };
 
-module.exports = { home, data };
+module.exports = { home, data, auth };
