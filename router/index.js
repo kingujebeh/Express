@@ -5,8 +5,8 @@ const controller = require("../controller");
 
 router.get("/data", controller.data);
 
-// // Auth
-// router.get("/auth", controller.auth);
+// Auth
+router.get("/auth", controller.auth);
 
 // User
 router.get("/user", (req, res) => {});
