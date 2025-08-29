@@ -23,7 +23,7 @@ const getnerateJWT = (payload) =>
       email: payload.email,
       picture: payload.picture,
     },
-    getSecret(JWT_SECRET),
+    getSecret("JWT_SECRET"),
     { expiresIn: "7d" } // token expires in 7 days
   );
 
