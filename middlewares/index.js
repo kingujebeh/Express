@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const httpsRedirect = (req, res, next) => {
   if (
@@ -17,6 +18,7 @@ module.exports = [
   httpsRedirect,
   cors(),
   morgan("tiny"),
+  cookieParser(),
   express.json(),
   express.urlencoded({ extended: true }),
 ];
