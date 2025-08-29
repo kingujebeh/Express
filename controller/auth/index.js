@@ -17,7 +17,6 @@ const auth = async (req, res) => {
   const payload = ticket.getPayload();
 
   // Check if user exists in your DB
-  let user;
   // user = await fn.getUser(payload.sub);
 
   // if (!user) {
@@ -26,6 +25,7 @@ const auth = async (req, res) => {
   // }
 
   const jwtToken = fn.getnerateJWT(payload);
+  const user = fn.verifyJWT(jwtToken);
 
   res
     .cookie("session", jwtToken, {
@@ -34,7 +34,7 @@ const auth = async (req, res) => {
       sameSite: "lax", // or "strict"
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     })
-    .send(jwtToken);
+    .send(user);
   // } catch (err) {
   //   res.status(401).send(err);
   // }

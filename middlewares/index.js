@@ -3,6 +3,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
+const { getSecret } = require("../secrets");
+
 const httpsRedirect = (req, res, next) => {
   if (
     process.env.NODE_ENV === "production" &&
@@ -14,6 +16,27 @@ const httpsRedirect = (req, res, next) => {
   next();
 };
 
+const verifyJWT = (req, res, next) => {
+  const token = req.cookies.session; // from cookie
+
+  if (token) {
+    req.user = jwt.verify(token, getSecret("JWT_SECRET")); // attach user data
+    next();
+  } else token = null;
+};
+
+const attachUserToResponse = (req, res, next) => {
+  const oldJson = res.json;
+  res.json = function (data) {
+    const payload = {
+      ...data,
+      user: req.user || null, // always attach user info
+    };
+    return oldJson.call(this, payload);
+  };
+  next();
+};
+
 module.exports = [
   httpsRedirect,
   cors(),
@@ -21,4 +44,6 @@ module.exports = [
   cookieParser(),
   express.json(),
   express.urlencoded({ extended: true }),
+  verifyJWT,
+  attachUserToResponse,
 ];

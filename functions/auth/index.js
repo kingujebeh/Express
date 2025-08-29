@@ -27,4 +27,5 @@ const getnerateJWT = (payload) =>
     { expiresIn: "7d" } // token expires in 7 days
   );
 
-module.exports = { getUser, signup, getnerateJWT };
+const verifyJWT = (token) => jwt.verify(token, getSecret("JWT_SECRET"));
+module.exports = { getUser, signup, getnerateJWT, verifyJWT };
