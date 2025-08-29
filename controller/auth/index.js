@@ -4,17 +4,25 @@ const fn = require("../../functions");
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-const auth = async (req, res) => {
+const auth = async (req, res, next) => {
   console.log(req.body, process.env.GOOGLE_CLIENT_ID);
   const { token } = req.body;
 
-  // Verify Google ID token
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: process.env.GOOGLE_CLIENT_ID,
-  });
+  if (!token) next();
 
-  const payload = ticket.getPayload();
+  let payload;
+
+  try {
+    // Verify Google ID token
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    payload = ticket.getPayload();
+  } catch (err) {
+    res.status(401).send(err);
+  }
 
   // Check if user exists in your DB
   // user = await fn.getUser(payload.sub);

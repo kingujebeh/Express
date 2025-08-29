@@ -24,6 +24,8 @@ const verifyJWT = (req, res, next) => {
     req.user = jwt.verify(token, getSecret("JWT_SECRET")); // attach user data
     next();
   } else token = null;
+
+  next();
 };
 
 const attachUserToResponse = (req, res, next) => {
