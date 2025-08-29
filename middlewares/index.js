@@ -18,7 +18,7 @@ const httpsRedirect = (req, res, next) => {
 };
 
 const verifyJWT = (req, res, next) => {
-  const token = req.cookies.session; // from cookie
+  let token = req.cookies.session; // from cookie
 
   if (token) {
     req.user = jwt.verify(token, getSecret("JWT_SECRET")); // attach user data
