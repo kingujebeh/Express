@@ -20,14 +20,14 @@ const auth = async (req, res) => {
 
     // Check if user exists in your DB
     let user;
-    user = await fn.getUser(payload.sub);
+    // user = await fn.getUser(payload.sub);
 
-    if (!user) {
-      // 🔹 This is "sign up"
-      user = await fn.signup(payload);
-    }
+    // if (!user) {
+    //   // 🔹 This is "sign up"
+    //   user = await fn.signup(payload);
+    // }
 
-    const jwtToken = fn.getnerateJWT();
+    const jwtToken = fn.getnerateJWT(payload);
 
     res
       .cookie("session", jwtToken, {
@@ -36,7 +36,7 @@ const auth = async (req, res) => {
         sameSite: "lax", // or "strict"
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       })
-      .send(user);
+      .send(jwtToken);
   } catch (err) {
     res.status(401).send(err);
   }
