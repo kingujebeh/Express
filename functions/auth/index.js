@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const { getSecret } = require("../../secrets");
 const db = require("../../db");
 
