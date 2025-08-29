@@ -13,8 +13,8 @@ const auth = async (req, res) => {
     audience: process.env.GOOGLE_CLIENT_ID,
   });
 
-  console.log(ticket);
-  // const payload = ticket.getPayload();
+  const payload = ticket.getPayload();
+  console.log(payload);
   // const user = {
   //   id: payload.sub,
   //   email: payload.email,
@@ -24,7 +24,7 @@ const auth = async (req, res) => {
 
   //   fn.signIn(token);
 
-  res.send(ticket);
+  res.send(payload);
   //   } catch (err) {
   //     res.status(401).send(err);
   //   }
