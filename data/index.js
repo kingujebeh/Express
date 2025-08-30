@@ -6,7 +6,7 @@ const domains = {
   store: ["yatsar.store"],
   pro: ["creatyve3d.pro"],
   me: ["great-unknown.nw.r.appspot.com"],
-  finance: ["soccerclues.site"],
+  fairplay: ["soccerclues.site"],
 };
 
 const unknown = {
