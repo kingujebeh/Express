@@ -1,6 +1,10 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+
+const { getSecret } = require("../secrets");
 
 const httpsRedirect = (req, res, next) => {
   if (
@@ -13,10 +17,36 @@ const httpsRedirect = (req, res, next) => {
   next();
 };
 
+const verifyJWT = (req, res, next) => {
+  let token = req.cookies.session; // from cookie
+
+  if (token) {
+    req.user = jwt.verify(token, getSecret("JWT_SECRET")); // attach user data
+    next();
+  } else token = null;
+
+  next();
+};
+
+const attachUserToResponse = (req, res, next) => {
+  const oldJson = res.json;
+  res.json = function (data) {
+    const payload = {
+      ...data,
+      user: req.user || null, // always attach user info
+    };
+    return oldJson.call(this, payload);
+  };
+  next();
+};
+
 module.exports = [
   httpsRedirect,
   cors(),
   morgan("tiny"),
+  cookieParser(),
   express.json(),
   express.urlencoded({ extended: true }),
+  verifyJWT,
+  attachUserToResponse,
 ];

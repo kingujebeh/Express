@@ -1,6 +1,7 @@
 const path = require("path");
 const { Storage } = require("@google-cloud/storage");
 
+const auth = require("./auth");
 const { domains } = require("../data");
 
 console.log(domains);
@@ -25,4 +26,4 @@ function getFile(subname, reqPath) {
   return bucket.file(path.join("client", "dist", subname, filePath));
 }
 
-module.exports = { getSubname, getFile };
+module.exports = { getSubname, getFile, ...auth };

@@ -1,5 +1,31 @@
-const signin = async (token) => {
-  console.log(token);
+const jwt = require("jsonwebtoken");
+
+const { getSecret } = require("../../secrets");
+const db = require("../../db");
+
+const signup = async () => {
+  user = await db.users.insert({
+    googleId: sub,
+    email,
+    name,
+    picture,
+    createdAt: new Date(),
+  });
+  let user = await db.users.findOne({ googleId: sub });
 };
 
-module.exports = { signin };
+const getUser = async (sub) => await db.users.findOne({ googleId: sub });
+
+const getnerateJWT = (payload) =>
+  jwt.sign(
+    {
+      name: payload.name,
+      email: payload.email,
+      picture: payload.picture,
+    },
+    getSecret("JWT_SECRET"),
+    { expiresIn: "7d" } // token expires in 7 days
+  );
+
+const verifyJWT = (token) => jwt.verify(token, getSecret("JWT_SECRET"));
+module.exports = { getUser, signup, getnerateJWT, verifyJWT };
