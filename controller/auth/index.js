@@ -32,17 +32,17 @@ const auth = async (req, res, next) => {
   //   user = await fn.signup(payload);
   // }
 
-  const jwtToken = fn.getnerateJWT(payload);
-  const user = fn.verifyJWT(jwtToken);
+  // const jwtToken = fn.getnerateJWT(payload);
+  // const user = fn.verifyJWT(jwtToken);
 
   res
-    .cookie("session", jwtToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // only over HTTPS
-      sameSite: "lax", // or "strict"
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    })
-    .send(user);
+    // .cookie("session", jwtToken, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production", // only over HTTPS
+    //   sameSite: "lax", // or "strict"
+    //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    // })
+    .send(payload);
   // } catch (err) {
   //   res.status(401).send(err);
   // }
