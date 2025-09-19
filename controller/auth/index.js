@@ -13,7 +13,7 @@ const auth = async (req, res, next) => {
   let payload;
 
   try {
-    const { token } = await oauth2Client.getToken(code);
+    const { token } = await client.getToken(code);
 
     console.log(token);
 
