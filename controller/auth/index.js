@@ -22,6 +22,7 @@ const auth = async (req, res, next) => {
     console.log(ticket);
     // payload = ticket.getPayload();
   } catch (err) {
+    console.log(err);
     res.status(401).send(err);
     return;
   }
