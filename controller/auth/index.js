@@ -24,6 +24,7 @@ const auth = async (req, res, next) => {
     res.status(401).send(err);
   }
 
+  console.log(payload)
   // Check if user exists in your DB
   // user = await fn.getUser(payload.sub);
 
