@@ -6,21 +6,21 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const auth = async (req, res, next) => {
   console.log(req.body, process.env.GOOGLE_CLIENT_ID);
-  const { token } = req.body;
+  const { code } = req.body;
 
-  if (!token) next();
+  if (!code) next();
 
   let payload;
 
   try {
     // Verify Google ID token
     const ticket = await client.verifyIdToken({
-      idToken: token,
+      idToken: code,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
     console.log(ticket);
-    // payload = ticket.getPayload();
+    payload = ticket.getPayload();
   } catch (err) {
     console.log(err);
     res.status(401).send(err);
