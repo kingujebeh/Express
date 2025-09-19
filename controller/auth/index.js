@@ -19,13 +19,14 @@ const auth = async (req, res, next) => {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    payload = ticket.getPayload();
-    console.log(ticket)
+    console.log(ticket);
+    // payload = ticket.getPayload();
   } catch (err) {
     res.status(401).send(err);
+    return;
   }
-  
-  console.log(payload)
+
+  console.log(payload);
   // Check if user exists in your DB
   // user = await fn.getUser(payload.sub);
 
