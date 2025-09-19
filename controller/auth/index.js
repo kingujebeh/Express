@@ -13,9 +13,14 @@ const auth = async (req, res, next) => {
   let payload;
 
   try {
+    const { token } = await oauth2Client.getToken(code);
+
+    console.log(token);
+
     // Verify Google ID token
+
     const ticket = await client.verifyIdToken({
-      idToken: code,
+      idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
