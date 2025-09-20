@@ -14,11 +14,6 @@ app.use(middlewares);
 
 app.use("/api", router);
 
-app.get("/", (req, res, next) => {
-  if (req.subdomains.includes("handy")) res.send("Hello World");
-  else next()
-});
-
 // Catch All Exceptions
 app.all("/{*any}", home);
 
