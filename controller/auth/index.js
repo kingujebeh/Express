@@ -6,8 +6,9 @@ const fn = require("../../functions");
 const auth = async (req, res, next) => {
   const googleClientID = getSecret("GOOGLE_CLIENT_ID");
   const googleClientSecret = getSecret("GOOGLE_CLIENT_SECRET");
+  const googleRedirectURI = getSecret("GOOGLE_REDIRECT_URI");
 
-  const client = new OAuth2Client(googleClientID, googleClientSecret);
+  const client = new OAuth2Client(googleClientID, googleClientSecret, googleRedirectURI );
 
   const { code } = req.body;
 
