@@ -3,12 +3,12 @@ const { getSecret } = require("../../secrets");
 
 const fn = require("../../functions");
 
-const googleClientID = getSecret("GOOGLE_CLIENT_ID");
-const googleClientSecret = getSecret("GOOGLE_CLIENT_SECRET");
-
-const client = new OAuth2Client(googleClientID, googleClientSecret);
-
 const auth = async (req, res, next) => {
+  const googleClientID = getSecret("GOOGLE_CLIENT_ID");
+  const googleClientSecret = getSecret("GOOGLE_CLIENT_SECRET");
+
+  const client = new OAuth2Client(googleClientID, googleClientSecret);
+
   const { code } = req.body;
 
   if (!code) next();
