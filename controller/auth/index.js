@@ -1,5 +1,5 @@
 const { OAuth2Client } = require("google-auth-library");
-const { getSecret } = require("../secrets");
+const { getSecret } = require("../../secrets");
 
 const fn = require("../../functions");
 
