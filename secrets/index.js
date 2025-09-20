@@ -15,7 +15,11 @@ async function loadSecret(name) {
 
 async function loadAllSecrets() {
   // Add all your secret names here
-  const secretNames = ["JWT_SECRET"];
+  const secretNames = [
+    "JWT_SECRET",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_CLIENT_ID",
+  ];
 
   await Promise.all(secretNames.map(loadSecret));
 

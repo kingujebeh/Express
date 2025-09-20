@@ -1,11 +1,14 @@
 const { OAuth2Client } = require("google-auth-library");
+const { getSecret } = require("../secrets");
 
 const fn = require("../../functions");
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const googleClientID = getSecret("GOOGLE_CLIENT_ID");
+const googleClientSecret = getSecret("GOOGLE_CLIENT_SECRET");
+
+const client = new OAuth2Client(googleClientID, googleClientSecret);
 
 const auth = async (req, res, next) => {
-  console.log(req.body, process.env.GOOGLE_CLIENT_ID);
   const { code } = req.body;
 
   if (!code) next();
