@@ -20,7 +20,7 @@ const getUser = async (sub) => await db.users.findOne({ googleId: sub });
 
 const verifyJWT = (token) => jwt.verify(token, getSecret("JWT_SECRET"));
 
-const signin = async () => {
+const signin = async (code) => {
   try {
     // Exchange code for tokens
     const tokenRes = await axios.post("https://oauth2.googleapis.com/token", {
