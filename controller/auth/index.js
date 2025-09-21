@@ -9,6 +9,7 @@ const auth = async (req, res, next) => {
   const googleRedirectURI = getSecret("GOOGLE_REDIRECT_URI");
 
   const client = new OAuth2Client(googleClientID, googleClientSecret, googleRedirectURI );
+  console.log(googleClientID, googleClientSecret, googleRedirectURI );
 
   const { code } = req.body;
 
