@@ -19,6 +19,7 @@ async function loadAllSecrets() {
     "JWT_SECRET",
     "GOOGLE_CLIENT_SECRET",
     "GOOGLE_CLIENT_ID",
+    "GOOGLE_REDIRECT_URI"
   ];
 
   await Promise.all(secretNames.map(loadSecret));

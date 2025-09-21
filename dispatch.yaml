@@ -1,8 +1,0 @@
-dispatch:
-  # Root domain
-  - url: "gkrane.online/*"
-    service: default
-
-  # All subdomains
-  - url: "*.gkrane.online/*"
-    service: default
