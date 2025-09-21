@@ -1,12 +1,10 @@
 const domains = {
-  community: ["augmentplus.space"],
-  kingdom: ["marblelimit.com"],
-  business: ["gkrane.online"],
-  shop: ["osasengineering.shop"],
-  store: ["yatsar.store"],
   pro: ["creatyve3d.pro"],
+  store: ["yatsar.store"],
+  shop: ["osasengineering.shop"],
+  krane: ["gkrane.online"],
+  community: ["augmentplus.space"],
   me: ["great-unknown.nw.r.appspot.com"],
-  fairpay: ["soccerclues.site"],
 };
 
 const unknown = {
