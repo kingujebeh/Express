@@ -17,28 +17,17 @@ const httpsRedirect = (req, res, next) => {
   next();
 };
 
-const verifyJWT = (req, res, next) => {
-  let token = req.cookies.session; // from cookie
+// const verifyJWT = (req, res, next) => {
+//   let token = req.cookies.session; // from cookie
 
-  if (token) {
-    req.user = jwt.verify(token, getSecret("JWT_SECRET")); // attach user data
-    next();
-  } else token = null;
+//   if (token) {
+//     req.user = jwt.verify(token, getSecret("JWT_SECRET")); // attach user data
+//     next();
+//   } else token = null;
 
-  next();
-};
+//   next();
+// };
 
-const attachUserToResponse = (req, res, next) => {
-  const oldJson = res.json;
-  res.json = function (data) {
-    const payload = {
-      ...data,
-      user: req.user || null, // always attach user info
-    };
-    return oldJson.call(this, payload);
-  };
-  next();
-};
 
 module.exports = [
   httpsRedirect,
@@ -48,5 +37,4 @@ module.exports = [
   express.json(),
   express.urlencoded({ extended: true }),
   verifyJWT,
-  attachUserToResponse,
 ];
