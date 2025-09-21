@@ -36,5 +36,4 @@ module.exports = [
   cookieParser(),
   express.json(),
   express.urlencoded({ extended: true }),
-  verifyJWT,
 ];
