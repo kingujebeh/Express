@@ -17,16 +17,16 @@ const httpsRedirect = (req, res, next) => {
   next();
 };
 
-// const verifyJWT = (req, res, next) => {
-//   let token = req.cookies.session; // from cookie
+const verifyJWT = (req, res, next) => {
+  let token = req.cookies.session; // from cookie
 
-//   if (token) {
-//     req.user = jwt.verify(token, getSecret("JWT_SECRET")); // attach user data
-//     next();
-//   } else token = null;
+  if (token) {
+    req.user = jwt.verify(token, getSecret("JWT_SECRET")); // attach user data
+    next();
+  } else token = null;
 
-//   next();
-// };
+  next();
+};
 
 
 module.exports = [
@@ -36,4 +36,5 @@ module.exports = [
   cookieParser(),
   express.json(),
   express.urlencoded({ extended: true }),
+  verifyJWT
 ];
