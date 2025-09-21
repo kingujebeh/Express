@@ -4,7 +4,6 @@ const domains = {
   shop: ["osasengineering.shop"],
   krane: ["gkrane.online"],
   community: ["augmentplus.space"],
-  me: ["great-unknown.nw.r.appspot.com"],
 };
 
 const unknown = {
