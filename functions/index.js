@@ -19,9 +19,7 @@ function getFile(subname, reqPath) {
   const hasExt = path.extname(cleaned) !== "";
   const filePath = hasExt ? cleaned : path.join("index.html");
 
-  subname = subname ? subname : "me";
-
-  console.log(subname, reqPath);
+  subname = subname ? subname : "krane";
 
   return bucket.file(path.join("client", "dist", subname, filePath));
 }
