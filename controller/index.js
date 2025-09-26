@@ -3,48 +3,36 @@ const mime = require("mime-types");
 const fn = require("../functions");
 
 const { real } = require("../data");
+
 const subdomains = ["i", "handyman", "handyfix", "fairpay"];
 const auth = require("./auth");
 
 const home = async (req, res) => {
   try {
+    // pick subdomain if valid, else krane
     const subname =
       req.subdomains.find((s) => subdomains.includes(s)) ||
-      fn.getSubname(req.headers.host);
+      fn.getSubname(req.headers.host) ||
+      "krane";
 
     const reqPath = req.path || "/";
     const hasExt = path.extname(reqPath) !== "";
 
-    let filePath;
-
+    let file;
     if (hasExt) {
-      // request for static asset (e.g., .js, .css, .png)
-      filePath = reqPath.substring(1);
+      // request for static asset → from actual subdomain bucket
+      const filePath = reqPath.substring(1);
+      file = fn.getFile(subname, filePath);
+
+      const [exists] = await file.exists();
+      if (!exists) {
+        return res.status(404).send("Not found");
+      }
     } else {
-      // SPA route → always fallback to index.html
-      filePath = "index.html";
-    }
+      // SPA route → always fallback to krane/index.html
+      file = fn.getFile("krane", "index.html");
 
-    let targetSub = subname;
-
-    // force SPA subdomains to use krane
-    if (!hasExt) {
-      targetSub = "krane";
-    }
-
-    let file = fn.getFile(targetSub, filePath);
-    let [exists] = await file.exists();
-
-    // if asset doesn’t exist but it was a static file, 404
-    if (!exists && hasExt) {
-      return res.status(404).send("Not found");
-    }
-
-    // if SPA index.html doesn’t exist in krane, fallback to default
-    if (!exists && !hasExt) {
-      file = fn.getFile("default", "index.html");
-      [exists] = await file.exists();
-
+      const [exists] = await file.exists();
       if (!exists) {
         return res.status(404).send("App not found");
       }
@@ -53,7 +41,6 @@ const home = async (req, res) => {
     const [buffer] = await file.download();
     const contentType = mime.lookup(file.name) || "application/octet-stream";
 
-    // headers
     if (contentType === "text/html") {
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       res.setHeader("Pragma", "no-cache");
