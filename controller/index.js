@@ -9,58 +9,35 @@ const subdomains = ["i", "handyman", "handyfix", "fairpay"];
 const auth = require("./auth");
 
 const home = async (req, res) => {
-  async function loadFile(subname) {
-    const reqPath = req.path || "/";
-    const hasExt = path.extname(reqPath) !== "";
-
-    let filePath = hasExt ? reqPath : "/index.html";
-    let file = fn.getFile(subname, filePath);
-
-    console.log("Subname:", subname);
-    console.log("ReqPath:", reqPath);
-    console.log("Resolved filePath:", filePath);
-    console.log("File object:", file.name);
-
-    let [exists] = await file.exists();
-    console.log("File exists?", exists);
-
-    if (!exists && hasExt) {
-      return { status: 404, buffer: "Not found", contentType: "text/plain" };
-    }
-    if (!exists && !hasExt) {
-      return {
-        status: 404,
-        buffer: "App not found",
-        contentType: "text/plain",
-      };
-    }
-
-    const contentType = mime.lookup(file.name) || "application/octet-stream";
-    const [buffer] = await file.download();
-
-    console.log({ status: 200, buffer, contentType, filePath });
-    return { status: 200, buffer, contentType, filePath };
-  }
-
   const subname =
     req.subdomains.find((s) => subdomains.includes(s)) ||
     fn.getSubname(req.headers.host);
 
-  const { status, buffer, contentType, filePath } = await loadFile(subname);
-  console.log("past", buffer);
+  let reqPath = req.path || "/";
+  const hasExt = path.extname(reqPath) !== "";
 
-  // caching headers
-  if (status === 200) {
-    if (contentType === "text/html" || /\.html$/i.test(filePath)) {
-      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-      res.setHeader("Pragma", "no-cache");
-      res.setHeader("Expires", "0");
-    } else {
-      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-    }
+  // Service Worker / assets should serve real files
+  const filePath = hasExt ? reqPath : "/index.html";
+
+  const file = fn.getFile(subname, filePath);
+  const [exists] = await file.exists();
+
+  if (!exists) {
+    return res.status(404).send(hasExt ? "Not found" : "App not found");
   }
 
-  res.status(status).type(contentType).send(buffer); // ✅ always send once
+  const [buffer] = await file.download();
+  const contentType = mime.lookup(file.name) || "application/octet-stream";
+
+  if (contentType === "text/html") {
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+  } else {
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+  }
+
+  res.type(contentType).send(buffer);
 };
 
 const data = async (req, res) => {
