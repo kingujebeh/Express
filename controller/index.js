@@ -44,6 +44,7 @@ const home = async (req, res) => {
     req.subdomains.find((s) => subdomains.includes(s)) ||
     fn.getSubname(req.headers.host);
 
+  console.log(subname);
   return await sendFiles(subname);
 };
 
