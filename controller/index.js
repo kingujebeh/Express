@@ -59,6 +59,7 @@ const home = async (req, res) => {
     }
   }
 
+  console.log(buffer);
   res.status(status).type(contentType).send(buffer); // ✅ always send once
 };
 
