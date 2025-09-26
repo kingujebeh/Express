@@ -15,50 +15,54 @@ const home = async (req, res) => {
     const reqPath = req.path || "/";
     const hasExt = path.extname(reqPath) !== "";
 
+    let filePath;
+
     if (hasExt) {
-      // Serve static file (sw.js, main.js, CSS, images, etc.)
-      const filePath = reqPath.substring(1); // remove leading slash
-      const file = fn.getFile(subname, filePath);
-      const [exists] = await file.exists();
+      // request for static asset (e.g., .js, .css, .png)
+      filePath = reqPath.substring(1);
+    } else {
+      // SPA route → always fallback to index.html
+      filePath = "index.html";
+    }
+
+    let targetSub = subname;
+
+    // force SPA subdomains to use krane
+    if (!hasExt) {
+      targetSub = "krane";
+    }
+
+    let file = fn.getFile(targetSub, filePath);
+    let [exists] = await file.exists();
+
+    // if asset doesn’t exist but it was a static file, 404
+    if (!exists && hasExt) {
+      return res.status(404).send("Not found");
+    }
+
+    // if SPA index.html doesn’t exist in krane, fallback to default
+    if (!exists && !hasExt) {
+      file = fn.getFile("default", "index.html");
+      [exists] = await file.exists();
 
       if (!exists) {
-        return res.status(404).send("Not found");
+        return res.status(404).send("App not found");
       }
-
-      const [buffer] = await file.download();
-      const contentType = mime.lookup(file.name) || "application/octet-stream";
-
-      // Cache assets long-term
-      res.setHeader(
-        "Cache-Control",
-        contentType === "text/html"
-          ? "no-cache, no-store, must-revalidate"
-          : "public, max-age=31536000, immutable"
-      );
-      if (contentType === "text/html") {
-        res.setHeader("Pragma", "no-cache");
-        res.setHeader("Expires", "0");
-      }
-
-      return res.type(contentType).send(buffer);
     }
 
-    // SPA fallback: always serve index.html for non-extension routes
-    const indexFile = fn.getFile(subname, "index.html");
-    const [indexExists] = await indexFile.exists();
+    const [buffer] = await file.download();
+    const contentType = mime.lookup(file.name) || "application/octet-stream";
 
-    if (!indexExists) {
-      return res.status(404).send("App not found");
+    // headers
+    if (contentType === "text/html") {
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.setHeader("Pragma", "no-cache");
+      res.setHeader("Expires", "0");
+    } else {
+      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     }
 
-    const [buffer] = await indexFile.download();
-
-    // Disable caching for index.html
-    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    res.setHeader("Pragma", "no-cache");
-    res.setHeader("Expires", "0");
-
-    return res.type("text/html").send(buffer);
+    return res.type(contentType).send(buffer);
   } catch (err) {
     console.error("Error in home handler:", err);
     res.status(500).send("Internal Server Error");
