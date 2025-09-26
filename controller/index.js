@@ -9,7 +9,6 @@ const auth = require("./auth");
 
 const home = async (req, res) => {
   try {
-    // pick subdomain if valid, else krane
     const subname =
       req.subdomains.find((s) => subdomains.includes(s)) ||
       fn.getSubname(req.headers.host) ||
@@ -19,8 +18,9 @@ const home = async (req, res) => {
     const hasExt = path.extname(reqPath) !== "";
 
     let file;
+
     if (hasExt) {
-      // request for static asset → from actual subdomain bucket
+      // static asset → serve from subdomain bucket
       const filePath = reqPath.substring(1);
       file = fn.getFile(subname, filePath);
 
@@ -29,7 +29,7 @@ const home = async (req, res) => {
         return res.status(404).send("Not found");
       }
     } else {
-      // SPA route → always fallback to krane/index.html
+      // SPA route → always serve krane/index.html
       file = fn.getFile("krane", "index.html");
 
       const [exists] = await file.exists();
