@@ -47,6 +47,7 @@ const home = async (req, res) => {
     fn.getSubname(req.headers.host);
 
   const { status, buffer, contentType, filePath } = await loadFile(subname);
+  console.log("past", buffer);
 
   // caching headers
   if (status === 200) {
@@ -59,7 +60,6 @@ const home = async (req, res) => {
     }
   }
 
-  console.log(buffer);
   res.status(status).type(contentType).send(buffer); // ✅ always send once
 };
 
