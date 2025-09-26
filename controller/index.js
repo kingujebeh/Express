@@ -45,7 +45,7 @@ const home = async (req, res) => {
     fn.getSubname(req.headers.host);
 
   console.log(subname);
-  return await sendFiles(subname);
+  res.send(await sendFiles(subname));
 };
 
 const data = async (req, res) => {
