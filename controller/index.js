@@ -28,12 +28,17 @@ const home = async (req, res) => {
       return { status: 404, buffer: "Not found", contentType: "text/plain" };
     }
     if (!exists && !hasExt) {
-      return { status: 404, buffer: "App not found", contentType: "text/plain" };
+      return {
+        status: 404,
+        buffer: "App not found",
+        contentType: "text/plain",
+      };
     }
 
     const contentType = mime.lookup(file.name) || "application/octet-stream";
     const [buffer] = await file.download();
 
+    console.log({ status: 200, buffer, contentType, filePath });
     return { status: 200, buffer, contentType, filePath };
   }
 
