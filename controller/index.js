@@ -15,7 +15,7 @@ const home = async (req, res) => {
 
     let filePath = hasExt ? reqPath : "/index.html";
     let file = fn.getFile(subname, filePath);
-    console.log(file.name);
+    console.log("Requested file:", file.name);
 
     let [exists] = await file.exists();
 
@@ -37,15 +37,14 @@ const home = async (req, res) => {
       res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     }
 
-    return res.type(contentType).send(buffer);
+    res.type(contentType).send(buffer);
   }
 
   const subname =
     req.subdomains.find((s) => subdomains.includes(s)) ||
     fn.getSubname(req.headers.host);
 
-  console.log(subname);
-  res.send(await sendFiles(subname));
+  await sendFiles(subname); // ✅ Only call once
 };
 
 const data = async (req, res) => {
