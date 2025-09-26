@@ -16,8 +16,8 @@ const home = async (req, res) => {
   let reqPath = req.path || "/";
   const hasExt = path.extname(reqPath) !== "";
 
-  // Service Worker / assets should serve real files
-  const filePath = hasExt ? reqPath : "/index.html";
+  // remove leading slash for storage path
+  const filePath = hasExt ? reqPath.substring(1) : "index.html";
 
   const file = fn.getFile(subname, filePath);
   const [exists] = await file.exists();
@@ -39,6 +39,7 @@ const home = async (req, res) => {
 
   res.type(contentType).send(buffer);
 };
+
 
 const data = async (req, res) => {
   res.json(real);
