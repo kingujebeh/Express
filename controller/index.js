@@ -9,7 +9,7 @@ const subdomains = ["i", "handyman", "handyfix", "fairpay"];
 const auth = require("./auth");
 
 const home = async (req, res) => {
-  async function sendFiles(subname) {
+  async function loadFile(subname) {
     const reqPath = req.path || "/";
     const hasExt = path.extname(reqPath) !== "";
 
@@ -25,15 +25,26 @@ const home = async (req, res) => {
     console.log("File exists?", exists);
 
     if (!exists && hasExt) {
-      return res.status(404).send("Not found");
+      return { status: 404, buffer: "Not found", contentType: "text/plain" };
     }
     if (!exists && !hasExt) {
-      return res.status(404).send("App not found");
+      return { status: 404, buffer: "App not found", contentType: "text/plain" };
     }
 
     const contentType = mime.lookup(file.name) || "application/octet-stream";
     const [buffer] = await file.download();
 
+    return { status: 200, buffer, contentType, filePath };
+  }
+
+  const subname =
+    req.subdomains.find((s) => subdomains.includes(s)) ||
+    fn.getSubname(req.headers.host);
+
+  const { status, buffer, contentType, filePath } = await loadFile(subname);
+
+  // caching headers
+  if (status === 200) {
     if (contentType === "text/html" || /\.html$/i.test(filePath)) {
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       res.setHeader("Pragma", "no-cache");
@@ -41,14 +52,9 @@ const home = async (req, res) => {
     } else {
       res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     }
-
-    res.type(contentType).send(buffer);
   }
-  const subname =
-    req.subdomains.find((s) => subdomains.includes(s)) ||
-    fn.getSubname(req.headers.host);
 
-  await sendFiles(subname); // ✅ Only call once
+  res.status(status).type(contentType).send(buffer); // ✅ always send once
 };
 
 const data = async (req, res) => {
