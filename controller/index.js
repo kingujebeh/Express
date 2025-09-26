@@ -15,9 +15,14 @@ const home = async (req, res) => {
 
     let filePath = hasExt ? reqPath : "/index.html";
     let file = fn.getFile(subname, filePath);
-    console.log("Requested file:", file.name);
+
+    console.log("Subname:", subname);
+    console.log("ReqPath:", reqPath);
+    console.log("Resolved filePath:", filePath);
+    console.log("File object:", file.name);
 
     let [exists] = await file.exists();
+    console.log("File exists?", exists);
 
     if (!exists && hasExt) {
       return res.status(404).send("Not found");
@@ -39,7 +44,6 @@ const home = async (req, res) => {
 
     res.type(contentType).send(buffer);
   }
-
   const subname =
     req.subdomains.find((s) => subdomains.includes(s)) ||
     fn.getSubname(req.headers.host);
