@@ -51,6 +51,8 @@ const home = async (req, res) => {
     const [buffer] = await file.download();
     const contentType = mime.lookup(file.name) || "application/octet-stream";
 
+    console.log(file.name);
+
     // cache headers
     if (contentType === "text/html") {
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
