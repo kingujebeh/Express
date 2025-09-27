@@ -10,18 +10,18 @@ const auth = require("./auth");
 const home = async (req, res) => {
   try {
     let subname =
-    req.subdomains.find((s) => subdomains.includes(s)) ||
-    fn.getSubname(req.headers.host);
-    
-    res.send(subname)
-    // // fallback to krane if no valid subdomain
-    // if (!subname) {
-    //   subname = "krane";
-    // }
+      req.subdomains.find((s) => subdomains.includes(s)) ||
+      fn.getSubname(req.headers.host);
 
-    // const reqPath = req.path || "/";
-    // const hasExt = path.extname(reqPath) !== "";
+    // fallback to krane if no valid subdomain
+    if (!subname) {
+      subname = "krane";
+    }
 
+    const reqPath = req.path || "/";
+    const hasExt = path.extname(reqPath) !== "";
+
+    res.send(subname, reqPath, hasExt);
     // let file;
 
     // if (hasExt) {
