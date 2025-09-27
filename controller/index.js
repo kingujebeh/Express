@@ -14,8 +14,11 @@ const home = async (req, res) => {
     const hasExt = path.extname(reqPath) !== "";
 
     let filePath = hasExt ? reqPath : "/index.html";
-    let file = await fn.getFile(subname, filePath);
+    let file = fn.getFile(subname, filePath);
+
     console.log("Requested file:", file.name);
+
+    res.send(file.name);
 
     let [exists] = await file.exists();
 
@@ -26,18 +29,18 @@ const home = async (req, res) => {
       return res.status(404).send("App not found");
     }
 
-    const contentType = mime.lookup(file.name) || "application/octet-stream";
-    const [buffer] = await file.download();
+    // const contentType = mime.lookup(file.name) || "application/octet-stream";
+    // const [buffer] = await file.download();
 
-    if (contentType === "text/html" || /\.html$/i.test(filePath)) {
-      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-      res.setHeader("Pragma", "no-cache");
-      res.setHeader("Expires", "0");
-    } else {
-      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-    }
+    // if (contentType === "text/html" || /\.html$/i.test(filePath)) {
+    //   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    //   res.setHeader("Pragma", "no-cache");
+    //   res.setHeader("Expires", "0");
+    // } else {
+    //   res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    // }
 
-    res.type(contentType).send(buffer);
+    // res.type(contentType).send(buffer);
   }
 
   const subname =
