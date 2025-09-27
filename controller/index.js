@@ -20,12 +20,12 @@ const home = async (req, res) => {
 
     let [exists] = await file.exists();
 
-    if (!exists && hasExt) {
-      return res.status(404).send("Not found");
-    }
-    if (!exists && !hasExt) {
-      return res.status(404).send("App not found");
-    }
+    // if (!exists && hasExt) {
+    //   return res.status(404).send("Not found");
+    // }
+    // if (!exists && !hasExt) {
+    //   return res.status(404).send("App not found");
+    // }
 
     const contentType = mime.lookup(file.name) || "application/octet-stream";
     const [buffer] = await file.download();
