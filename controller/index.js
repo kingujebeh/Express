@@ -21,7 +21,7 @@ const home = async (req, res) => {
     const reqPath = req.path || "/";
     const hasExt = path.extname(reqPath) !== "";
 
-    res.send(subname, reqPath, hasExt);
+    res.send((subname, reqPath, hasExt));
     // let file;
 
     // if (hasExt) {
