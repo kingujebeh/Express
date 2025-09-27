@@ -52,7 +52,7 @@ const home = async (req, res) => {
     // const [buffer] = await file.download();
     // const contentType = mime.lookup(file.name) || "application/octet-stream";
 
-    console.log(file.name);
+    // console.log(file.name);
 
     // // cache headers
     // if (contentType === "text/html") {
@@ -63,7 +63,7 @@ const home = async (req, res) => {
     //   res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     // }
 
-    return res.type(contentType).send(buffer);
+    // return res.type(contentType).send(buffer);
   } catch (err) {
     console.error("Error in home handler:", err);
     res.status(500).send("Internal Server Error");
