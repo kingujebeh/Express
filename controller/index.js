@@ -53,14 +53,14 @@ const home = async (req, res) => {
 
     console.log(file.name);
 
-    // cache headers
-    if (contentType === "text/html") {
-      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-      res.setHeader("Pragma", "no-cache");
-      res.setHeader("Expires", "0");
-    } else {
-      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-    }
+    // // cache headers
+    // if (contentType === "text/html") {
+    //   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    //   res.setHeader("Pragma", "no-cache");
+    //   res.setHeader("Expires", "0");
+    // } else {
+    //   res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    // }
 
     return res.type(contentType).send(buffer);
   } catch (err) {
