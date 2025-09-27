@@ -5,64 +5,46 @@ const fn = require("../functions");
 const { real } = require("../data");
 
 const subdomains = ["i", "handyman", "handyfix", "fairpay"];
+
 const auth = require("./auth");
 
 const home = async (req, res) => {
-  let subname =
-    req.subdomains.find((s) => subdomains.includes(s)) ||
-    fn.getSubname(req.headers.host);
+  async function sendFiles(subname) {
+    const reqPath = req.path || "/";
+    const hasExt = path.extname(reqPath) !== "";
 
-  // fallback to krane if no valid subdomain
-  if (!subname) {
-    subname = "krane";
-  }
-
-  const reqPath = req.path || "/";
-  const hasExt = path.extname(reqPath) !== "";
-
-  let file;
-
-  if (hasExt) {
-    // static asset → try subdomain, else fallback to krane
-    const filePath = reqPath.substring(1);
-    file = fn.getFile(subname, filePath);
+    let filePath = hasExt ? reqPath : "/index.html";
+    let file = await fn.getFile(subname, filePath);
+    console.log("Requested file:", file.name);
 
     let [exists] = await file.exists();
 
-    if (!exists && subname !== "krane") {
-      // fallback to krane assets if subdomain doesn't have the file
-      file = fn.getFile("krane", filePath);
-      [exists] = await file.exists();
-    }
-
-    if (!exists) {
+    if (!exists && hasExt) {
       return res.status(404).send("Not found");
     }
-  } else {
-    // SPA route → always serve krane/index.html
-    file = fn.getFile("krane", "index.html");
-    const [exists] = await file.exists();
-    if (!exists) {
+    if (!exists && !hasExt) {
       return res.status(404).send("App not found");
     }
+
+    const contentType = mime.lookup(file.name) || "application/octet-stream";
+    const [buffer] = await file.download();
+
+    if (contentType === "text/html" || /\.html$/i.test(filePath)) {
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.setHeader("Pragma", "no-cache");
+      res.setHeader("Expires", "0");
+    } else {
+      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    }
+
+    res.type(contentType).send(buffer);
   }
 
-  res.send({ subname, reqPath, hasExt });
-  // const [buffer] = await file.download();
-  // const contentType = mime.lookup(file.name) || "application/octet-stream";
+  const subname =
+    req.subdomains.find((s) => subdomains.includes(s)) ||
+    fn.getSubname(req.headers.host);
 
-  // console.log(file.name);
-
-  // // cache headers
-  // if (contentType === "text/html") {
-  //   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-  //   res.setHeader("Pragma", "no-cache");
-  //   res.setHeader("Expires", "0");
-  // } else {
-  //   res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-  // }
-
-  // return res.type(contentType).send(buffer);
+  await sendFiles(subname); // ✅ Only call once
 };
 
 const data = async (req, res) => {
