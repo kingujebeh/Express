@@ -9,10 +9,14 @@ const auth = require("./auth");
 
 const home = async (req, res) => {
   try {
-    const subname =
+    let subname =
       req.subdomains.find((s) => subdomains.includes(s)) ||
-      fn.getSubname(req.headers.host) ||
-      "krane";
+      fn.getSubname(req.headers.host);
+
+    // fallback to krane if no valid subdomain
+    if (!subname) {
+      subname = "krane";
+    }
 
     const reqPath = req.path || "/";
     const hasExt = path.extname(reqPath) !== "";
@@ -20,18 +24,24 @@ const home = async (req, res) => {
     let file;
 
     if (hasExt) {
-      // static asset → serve from subdomain bucket
+      // static asset → try subdomain, else fallback to krane
       const filePath = reqPath.substring(1);
       file = fn.getFile(subname, filePath);
 
-      const [exists] = await file.exists();
+      let [exists] = await file.exists();
+
+      if (!exists && subname !== "krane") {
+        // fallback to krane assets if subdomain doesn't have the file
+        file = fn.getFile("krane", filePath);
+        [exists] = await file.exists();
+      }
+
       if (!exists) {
         return res.status(404).send("Not found");
       }
     } else {
       // SPA route → always serve krane/index.html
       file = fn.getFile("krane", "index.html");
-
       const [exists] = await file.exists();
       if (!exists) {
         return res.status(404).send("App not found");
@@ -41,6 +51,7 @@ const home = async (req, res) => {
     const [buffer] = await file.download();
     const contentType = mime.lookup(file.name) || "application/octet-stream";
 
+    // cache headers
     if (contentType === "text/html") {
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       res.setHeader("Pragma", "no-cache");
