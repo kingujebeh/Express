@@ -18,29 +18,29 @@ const home = async (req, res) => {
 
     console.log("Requested file:", file.name);
 
-    res.send(file.name);
-
+    
     let [exists] = await file.exists();
-
+    
     if (!exists && hasExt) {
       return res.status(404).send("Not found");
     }
     if (!exists && !hasExt) {
       return res.status(404).send("App not found");
     }
-
-    // const contentType = mime.lookup(file.name) || "application/octet-stream";
-    // const [buffer] = await file.download();
-
-    // if (contentType === "text/html" || /\.html$/i.test(filePath)) {
-    //   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    //   res.setHeader("Pragma", "no-cache");
-    //   res.setHeader("Expires", "0");
-    // } else {
-    //   res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-    // }
-
-    // res.type(contentType).send(buffer);
+    
+    const contentType = mime.lookup(file.name) || "application/octet-stream";
+    const [buffer] = await file.download();
+    
+    if (contentType === "text/html" || /\.html$/i.test(filePath)) {
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.setHeader("Pragma", "no-cache");
+      res.setHeader("Expires", "0");
+    } else {
+      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    }
+    
+    // res.send(file.name);
+    res.type(contentType).send(buffer);
   }
 
   const subname =
