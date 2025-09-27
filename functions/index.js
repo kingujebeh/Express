@@ -12,7 +12,7 @@ function getSubname(domain) {
 
 const bucket = new Storage().bucket("great-unknown.appspot.com");
 
-function getFile(subname, reqPath) {
+async function getFile(subname, reqPath) {
   let cleaned = decodeURIComponent(reqPath);
 
   // If path appears to be a file (has extension), use it; else fallback to index.html
@@ -21,7 +21,7 @@ function getFile(subname, reqPath) {
 
   subname = subname ? subname : "krane";
 
-  return bucket.file(path.join("client", "dist", subname, filePath));
+  return await bucket.file(path.join("client", "dist", subname, filePath));
 }
 
 module.exports = { getSubname, getFile, ...auth };
