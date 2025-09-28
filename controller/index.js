@@ -11,6 +11,7 @@ const auth = require("./auth");
 const home = async (req, res, next) => {
   async function sendFile(subname, filePath) {
     try {
+      console.log(subname, filePath);
       const file = await fn.getFile(subname, filePath);
       const contentType = mime.lookup(file.name) || "application/octet-stream";
       const [buffer] = await file.download();
@@ -25,6 +26,7 @@ const home = async (req, res, next) => {
 
       return res.type(contentType).send(buffer);
     } catch (err) {
+      console.log(err)
       return null; // let caller decide fallback
     }
   }
