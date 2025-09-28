@@ -3,12 +3,12 @@ const router = express.Router();
 
 const controller = require("../controller");
 
-router.get("/data", controller.data);
+// router.get("/data", controller.data);
 
-// Auth
-router.post("/auth", controller.auth);
+// // Auth
+// router.post("/auth", controller.auth);
 
-// User
-router.get("/user", (req, res) => {});
+// // User
+// router.get("/user", (req, res) => {});
 
 module.exports = router;
