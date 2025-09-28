@@ -27,7 +27,7 @@ const home = async (req, res) => {
     //   return res.status(404).send("App not found");
     // }
 
-    const contentType = mime.lookup(file.name) || "application/octet-stream";
+    const contentType = await mime.lookup(file.name) || "application/octet-stream";
     const [buffer] = await file.download();
 
     // if (contentType === "text/html" || /\.html$/i.test(filePath)) {
