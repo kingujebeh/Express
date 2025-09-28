@@ -38,7 +38,7 @@ const home = async (req, res) => {
     //   res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     // }
 
-    res.send({ filename, contentType, exists });
+    res.send({ file: file.name, contentType, exists });
     // res.type(contentType).send(buffer);
   }
 
