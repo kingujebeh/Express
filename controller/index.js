@@ -18,7 +18,7 @@ const home = async (req, res) => {
 
     console.log("Requested file:", file.name);
 
-    // let [exists] = await file.exists();
+    let [exists] = await file.exists();
 
     // if (!exists && hasExt) {
     //   return res.status(404).send("Not found");
@@ -38,7 +38,7 @@ const home = async (req, res) => {
     //   res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     // }
 
-    res.send({ file: file.name });
+    res.send({ file: file.name, exists });
     // res.type(contentType).send(buffer);
   }
 
