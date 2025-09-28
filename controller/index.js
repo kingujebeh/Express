@@ -14,7 +14,7 @@ const home = async (req, res) => {
     const hasExt = path.extname(reqPath) !== "";
 
     let filePath = hasExt ? reqPath : "/index.html";
-    let file = await fn.getFile(subname, filePath);
+    let file = fn.getFile(subname, filePath);
 
     console.log("Requested file:", file.name);
 
