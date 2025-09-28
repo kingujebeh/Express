@@ -27,7 +27,7 @@ const home = async (req, res) => {
     //   return res.status(404).send("App not found");
     // }
 
-    const contentType = await mime.lookup(file.name) || "application/octet-stream";
+    // const contentType = await mime.lookup(file.name) || "application/octet-stream";
     // const [buffer] = await file.download();
 
     // if (contentType === "text/html" || /\.html$/i.test(filePath)) {
@@ -38,7 +38,7 @@ const home = async (req, res) => {
     //   res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     // }
 
-    res.send({ file: file.name, contentType, exists });
+    res.send({ file: file.name, exists });
     // res.type(contentType).send(buffer);
   }
 
