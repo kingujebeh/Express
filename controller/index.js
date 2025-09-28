@@ -20,7 +20,7 @@ const home = async (req, res, next) => {
     // resolve path
     const filePath = hasExt ? reqPath.replace(/^\//, "") : "index.html";
 
-    const file = fn.getFile(subname, filePath);
+    const file = await fn.getFile(subname, filePath);
     const [exists] = await file.exists();
 
     // if requested static file doesn’t exist → 404
