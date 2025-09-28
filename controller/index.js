@@ -5,42 +5,37 @@ const fn = require("../functions");
 const { real } = require("../data");
 
 const subdomains = ["i", "handyman", "handyfix", "fairpay"];
+
 const auth = require("./auth");
 
-const home = async (req, res, next) => {
-  try {
-    const subname =
-      req.subdomains.find((s) => subdomains.includes(s)) ||
-      fn.getSubname(req.headers.host) ||
-      "krane";
-
+const home = async (req, res) => {
+  async function sendFiles(subname) {
     const reqPath = req.path || "/";
     const hasExt = path.extname(reqPath) !== "";
 
-    // resolve path
-    const filePath = hasExt ? reqPath.replace(/^\//, "") : "index.html";
+    // if it has an extension → try to serve as-is
+    let filePath = hasExt ? reqPath : null;
 
-    const file = await fn.getFile(subname, filePath);
-    const [exists] = await file.exists();
-
-    // if requested static file doesn’t exist → 404
-    if (!exists && hasExt) {
-      return res.status(404).send("Not found");
+    let file;
+    try {
+      if (filePath) {
+        file = await fn.getFile(subname, filePath);
+      }
+    } catch (e) {
+      // file not found, fall back to index.html
+      filePath = null;
     }
 
-    // if SPA route but file doesn’t exist → fallback to krane/index.html
-    let targetFile = file;
-    if (!exists && !hasExt) {
-      targetFile = fn.getFile("krane", "index.html");
+    // default to index.html for SPA routes
+    if (!filePath) {
+      filePath = "/index.html";
+      file = await fn.getFile(subname, filePath);
     }
 
-    const [buffer] = await targetFile.download();
-    const contentType =
-      mime.lookup(targetFile.name) || "application/octet-stream";
+    const contentType = mime.lookup(file.name) || "application/octet-stream";
+    const [buffer] = await file.download();
 
-    console.log("Serving:", targetFile.name);
-
-    if (contentType === "text/html") {
+    if (contentType === "text/html" || /\.html$/i.test(filePath)) {
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       res.setHeader("Pragma", "no-cache");
       res.setHeader("Expires", "0");
@@ -48,12 +43,14 @@ const home = async (req, res, next) => {
       res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     }
 
-    // ✅ return to stop further execution
-    return res.type(contentType).send(buffer);
-  } catch (err) {
-    console.error("Error in home handler:", err);
-    return next(err);
+    res.type(contentType).send(buffer);
   }
+
+  const subname =
+    req.subdomains.find((s) => subdomains.includes(s)) ||
+    fn.getSubname(req.headers.host);
+
+  await sendFiles(subname);
 };
 
 const data = async (req, res) => {
