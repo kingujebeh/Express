@@ -14,12 +14,9 @@ app.use(middlewares);
 // API routes first
 app.use("/api", router);
 
-app.use(async (req, res, next) => {
-  try {
-    await home(req, res);
-  } catch (err) {
-    next(err);
-  }
+// SPA fallback — catch all remaining routes
+app.use((req, res, next) => {
+  home(req, res, next); 
 });
 
 const PORT = process.env.PORT || 3000;
