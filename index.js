@@ -15,7 +15,7 @@ app.use(middlewares);
 app.use("/api", router);
 
 // SPA fallback — catch all remaining routes
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   home(req, res).catch(next);
 });
 
