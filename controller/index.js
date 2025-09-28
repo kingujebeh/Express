@@ -16,11 +16,11 @@ const home = async (req, res) => {
     let filePath = hasExt ? reqPath : "/index.html";
     let file = await fn.getFile(subname, filePath);
 
-    console.log("Requested file:", file.name);
-
+    
     const contentType = mime.lookup(file.name) || "application/octet-stream";
     const [buffer] = await file.download();
-
+    
+    console.log("Requested file:", file.name, buffer);
     // if (contentType === "text/html" || /\.html$/i.test(filePath)) {
     //   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     //   res.setHeader("Pragma", "no-cache");
