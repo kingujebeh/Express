@@ -14,7 +14,7 @@ const home = async (req, res) => {
     const hasExt = path.extname(reqPath) !== "";
 
     let filePath = hasExt ? reqPath : "/index.html";
-    let file = fn.getFile(subname, filePath);
+    let file = await fn.getFile(subname, filePath);
 
     console.log("Requested file:", file.name);
 
@@ -38,7 +38,7 @@ const home = async (req, res) => {
     //   res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     // }
 
-    res.send({ filename, contentType });
+    res.send({ filename, contentType, exists });
     // res.type(contentType).send(buffer);
   }
 
