@@ -18,7 +18,7 @@ const home = async (req, res) => {
 
     console.log("Requested file:", file.name);
 
-    // const contentType = mime.lookup(file.name) || "application/octet-stream";
+    const contentType = mime.lookup(file.name) || "application/octet-stream";
     // const [buffer] = await file.download();
 
     // if (contentType === "text/html" || /\.html$/i.test(filePath)) {
@@ -30,8 +30,8 @@ const home = async (req, res) => {
     // }
 
     res
-      // .type(contentType)
-      .send(file.name);
+      .type(contentType)
+      .send({file:file.name, contentType});
   }
 
   const subname =
