@@ -4,24 +4,31 @@ const { Storage } = require("@google-cloud/storage");
 const auth = require("./auth");
 const { domains } = require("../data");
 
-console.log(domains);
-
 function getSubname(domain) {
-  return Object.keys(domains).filter((key) => domains[key].includes(domain))[0];
+  return Object.keys(domains).find((key) => domains[key].includes(domain));
 }
 
-const bucket = new Storage().bucket("great-unknown.appspot.com");
+const storage = new Storage({
+  credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON),
+  projectId: "great-unknown",
+});
 
-async function getFile(subname, reqPath) {
-  let cleaned = decodeURIComponent(reqPath);
+const bucket = storage.bucket("great-unknown.appspot.com");
 
-  // If path appears to be a file (has extension), use it; else fallback to index.html
+function sanitizePath(p) {
+  return p
+    .split("?")[0] // remove query string
+    .replace(/^\/+/, "") // remove leading slashes
+    .replace(/\.\./g, ""); // prevent directory traversal
+}
+
+function getFile(subname = "krane", reqPath = "/") {
+  const cleaned = sanitizePath(decodeURIComponent(reqPath));
+
   const hasExt = path.extname(cleaned) !== "";
-  const filePath = hasExt ? cleaned : path.join("index.html");
+  const filePath = hasExt ? cleaned : "index.html";
 
-  subname = subname ? subname : "krane";
-
-  return await bucket.file(path.join("client", "dist", subname, filePath));
+  return bucket.file(path.join("client", "dist", subname, filePath));
 }
 
 module.exports = { getSubname, getFile, ...auth };

@@ -19,5 +19,8 @@
     "jsonwebtoken": "^9.0.2",
     "mime-types": "^3.0.1",
     "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.3"
   }
 }
