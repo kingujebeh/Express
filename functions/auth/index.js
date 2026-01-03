@@ -3,8 +3,6 @@ const jwt = require("jsonwebtoken");
 
 const db = require("../../db");
 
-const { getSecret } = require("../../secrets");
-
 const signup = async () => {
   user = await db.users.insert({
     googleId: sub,
