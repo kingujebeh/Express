@@ -31,7 +31,8 @@ const existence = {
     Courses: {},
 
     Domain: {},
-    Vendor: {}
+    Vendor: {},
+    Web: {},
 };
 
 const items = {
