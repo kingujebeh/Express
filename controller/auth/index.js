@@ -1,11 +1,11 @@
 const signup = (req, res) => {
-  const { email, password, username } = res.body;
+  const { email, password, username } = req.body;
 
   res.json({ email, username });
 };
 
 const signin = (req, res) => {
-  const { email, password } = res.body;
+  const { email, password } = req.body;
 
   res.json({ email });
 };
