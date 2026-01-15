@@ -1,21 +1,18 @@
-// controller/auth.js
-import axios from "axios";
-import * as fn from "../../functions/index.js";
+import { existence } from "../../db/index.js";
 
 const signup = async (req, res) => {
   const { email, password, username } = req.body;
 
-  const url = `https://${process.env.ORACLE}/api/account/create`;
-
-  console.log(url);
-
   try {
-    await axios.post(url, {
-      uid: fn.utility.generateUID(),
-      username,
+    const profile = await existence.models.Profile.create({
       email,
       password,
+      username,
     });
+
+    await profile.save();
+
+    console.log("Profile Saved", profile);
   } catch (error) {
     console.error(error);
   }
