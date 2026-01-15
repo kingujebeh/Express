@@ -1,21 +1,3 @@
-User
-Software
-Game
-Kingdom
-Post
-Community
-File
-Route
-Function
-Country
-Currency
-Gadget
-Furniture
-AutoMobile
-Institution
-Business
-Music
-Video
-Photo
-Academy
-Domain
+import { existence, items } from './models/index.js'
+
+export { existence, items }
