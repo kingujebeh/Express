@@ -1,3 +1,5 @@
+require("module-alias/register");
+
 const express = require("express");
 const core = require("./core");
 const middlewares = require("./middlewares");
@@ -16,7 +18,7 @@ app.use("/api", router);
 
 // SPA fallback — catch all remaining routes
 app.use((req, res, next) => {
-  home(req, res, next); 
+  home(req, res, next);
 });
 
 const PORT = process.env.PORT || 3000;

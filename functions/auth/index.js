@@ -2,16 +2,6 @@ const axios = require("axios");
 const jwt = require("jsonwebtoken");
 
 const oracle = process.env.ORACLE;
-const signup = async () => {
-  user = await db.users.insert({
-    googleId: sub,
-    email,
-    name,
-    picture,
-    createdAt: new Date(),
-  });
-  let user = await db.users.findOne({ googleId: sub });
-};
 
 const getUser = async (sub) => await db.users.findOne({ googleId: sub });
 
@@ -69,4 +59,4 @@ async function registerAccountSignIn(userId, appName) {
   } catch (error) {}
 }
 
-module.exports = { getUser, signin, signup, verifyJWT };
+module.exports = { getUser, signin, verifyJWT };

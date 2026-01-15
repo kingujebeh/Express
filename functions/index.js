@@ -2,6 +2,8 @@ const path = require("path");
 const { Storage } = require("@google-cloud/storage");
 
 const auth = require("./auth");
+const utility = require("./utility");
+
 const { domains } = require("../data");
 
 function getSubname(domain) {
@@ -31,4 +33,6 @@ function getFile(subname = "krane", reqPath = "/") {
   return bucket.file(path.join("client", "dist", subname, filePath));
 }
 
-module.exports = { getSubname, getFile, ...auth };
+
+
+module.exports = { getSubname, getFile, auth, utility };
