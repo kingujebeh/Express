@@ -1,8 +1,7 @@
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 
-const db = require("../../db");
-
+const oracle = process.env.ORACLE;
 const signup = async () => {
   user = await db.users.insert({
     googleId: sub,
@@ -48,10 +47,26 @@ const signin = async (code) => {
       expiresIn: "30d",
     });
 
+    registerAccountSignIn(uid);
+
     return { jwtToken, user };
   } catch (err) {
     console.log(err);
   }
 };
+
+async function registerAccountSignIn(userId, appName) {
+  try {
+    const { data } = await axios.put(
+      `https://${oracle}/api/account/register/signin`,
+      {
+        appName: appName,
+        userId: userId,
+      }
+    );
+
+    console.log("Account Sign In Registered", data);
+  } catch (error) {}
+}
 
 module.exports = { getUser, signin, signup, verifyJWT };
