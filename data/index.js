@@ -1,3 +1,5 @@
+// data/index.js
+
 const domains = {
   pro: ["creatyve3d.pro"],
   store: ["yatsar.store"],
@@ -10,18 +12,9 @@ const unknown = {
   name: "Unknown",
   body: {
     worlds: [
-      {
-        id: "biological",
-        list: [],
-      },
-      {
-        id: "basic",
-        types: [],
-      },
-      {
-        id: "planetry",
-        list: [],
-      },
+      { id: "biological", list: [] },
+      { id: "basic", types: [] },
+      { id: "planetry", list: [] },
     ],
     kingdoms: [
       {
@@ -32,20 +25,13 @@ const unknown = {
             name: "Africa",
             body: {
               software: [],
-              people: {
-                professionals: [],
-                students: [],
-                nations: [],
-              },
+              people: { professionals: [], students: [], nations: [] },
               communities: ["Software", "Engineering", "Design"],
               market: [],
               institutions: [],
               competitions: [],
             },
-            info: {
-              currency: [],
-              places: [],
-            },
+            info: { currency: [], places: [] },
           },
           { id: "britain" },
         ],
@@ -73,47 +59,17 @@ const unknown = {
 };
 
 const real = {
-  apps: [
-    {
-      name: "WA Admin",
-      domain: "wa-admin.one",
-    },
-  ],
+  apps: [{ name: "WA Admin", domain: "wa-admin.one" }],
   kingdoms: [
-    {
-      id: "africa",
-      name: "Africa",
-    },
-    {
-      id: "benin",
-      name: "Benin",
-    },
-    {
-      id: "britain",
-      name: "Britain",
-    },
+    { id: "africa", name: "Africa" },
+    { id: "benin", name: "Benin" },
+    { id: "britain", name: "Britain" },
   ],
   professionals: [
-    {
-      username: "creatyve3d",
-      name: "Creatyve 3D",
-      domain: "creatyve3d.pro",
-    },
+    { username: "creatyve3d", name: "Creatyve 3D", domain: "creatyve3d.pro" },
   ],
-  stores: [
-    {
-      id: "yatsar",
-      name: "Yatsar",
-      domain: "yatsar.store",
-    },
-  ],
-  shops: [
-    {
-      id: "osaseng",
-      name: "Osas Engineering",
-      domain: "osasengineering.shop",
-    },
-  ],
+  stores: [{ id: "yatsar", name: "Yatsar", domain: "yatsar.store" }],
+  shops: [{ id: "osaseng", name: "Osas Engineering", domain: "osasengineering.shop" }],
 };
 
-module.exports = { domains, unknown, real };
+export { domains, unknown, real };

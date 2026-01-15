@@ -1,12 +1,10 @@
-const path = require("path");
-const { Storage } = require("@google-cloud/storage");
+// functions/index.js
+import path from "path";
+import { Storage } from "@google-cloud/storage";
 
-const auth = require("./auth");
-const utility = require("./utility");
+import { domains } from "../data/index.js";
 
-const { domains } = require("../data");
-
-function getSubname(domain) {
+export function getSubname(domain) {
   return Object.keys(domains).find((key) => domains[key].includes(domain));
 }
 
@@ -17,22 +15,19 @@ const storage = new Storage({
 
 const bucket = storage.bucket("great-unknown.appspot.com");
 
-function sanitizePath(p) {
+export function sanitizePath(p) {
   return p
     .split("?")[0] // remove query string
     .replace(/^\/+/, "") // remove leading slashes
     .replace(/\.\./g, ""); // prevent directory traversal
 }
 
-function getFile(subname = "krane", reqPath = "/") {
+export function getFile(subname = "krane", reqPath = "/") {
   const cleaned = sanitizePath(decodeURIComponent(reqPath));
-
   const hasExt = path.extname(cleaned) !== "";
   const filePath = hasExt ? cleaned : "index.html";
 
   return bucket.file(path.join("client", "dist", subname, filePath));
 }
 
-
-
-module.exports = { getSubname, getFile, auth, utility };
+export {  };

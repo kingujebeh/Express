@@ -1,10 +1,11 @@
-const express = require("express");
-const morgan = require("morgan");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
+// middlewares/index.js
+import express from "express";
+import morgan from "morgan";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken";
 
-const httpsRedirect = (req, res, next) => {
+export const httpsRedirect = (req, res, next) => {
   if (
     process.env.NODE_ENV === "production" &&
     req.headers["x-forwarded-proto"] &&
@@ -15,18 +16,25 @@ const httpsRedirect = (req, res, next) => {
   next();
 };
 
-const verifyJWT = (req, res, next) => {
-  let token = req.cookies.session; // from cookie
+export const verifyJWT = (req, res, next) => {
+  const token = req.cookies?.session; // optional chaining in case cookies is undefined
 
   if (token) {
-    req.user = jwt.verify(token, process.env.JWT_SECRET); // attach user data
-    next();
-  } else token = null;
+    try {
+      req.user = jwt.verify(token, process.env.JWT_SECRET); // attach user data
+    } catch (err) {
+      console.error("JWT verification failed:", err);
+      req.user = null;
+    }
+  } else {
+    req.user = null;
+  }
 
   next();
 };
 
-module.exports = [
+// Array of middlewares to use globally
+const middlewares = [
   httpsRedirect,
   cors(),
   morgan("tiny"),
@@ -35,3 +43,5 @@ module.exports = [
   express.urlencoded({ extended: true }),
   verifyJWT,
 ];
+
+export default middlewares;

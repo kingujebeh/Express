@@ -1,12 +1,13 @@
-const path = require("path");
-const mime = require("mime-types");
-const fn = require("../functions");
+// controller/home.js
+import path from "path";
+import mime from "mime-types";
 
-const { real } = require("../data");
+import * as fn from "../functions/index.js";
+import { real } from "../data/index.js";
+
+import * as auth from "./auth/index.js";
 
 const subdomains = ["i", "handyman", "handyfix", "fairpay"];
-
-const auth = require("./auth");
 
 const home = async (req, res, next) => {
   async function sendFile(subname, filePath) {
@@ -25,7 +26,7 @@ const home = async (req, res, next) => {
 
       return res.type(contentType).send(buffer);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return null; // let caller decide fallback
     }
   }
@@ -56,9 +57,8 @@ const home = async (req, res, next) => {
   }
 };
 
-
 const data = async (req, res) => {
   res.json(real);
 };
 
-module.exports = { home, data, auth };
+export { home, data, auth };

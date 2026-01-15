@@ -1,5 +1,6 @@
-const axios = require("axios");
-const fn = require("@/functions");
+// controller/auth.js
+import axios from "axios";
+import * as fn from "../../functions/index.js";
 
 const signup = async (req, res) => {
   const { email, password, username } = req.body;
@@ -7,12 +8,17 @@ const signup = async (req, res) => {
   const url = `https://${process.env.ORACLE}/api/account/create`;
 
   console.log(url);
-  await axios.post(url, {
-    uid: fn.utility.generateUID(),
-    username,
-    email,
-    password,
-  });
+
+  try {
+    await axios.post(url, {
+      uid: fn.utility.generateUID(),
+      username,
+      email,
+      password,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 
   res.json({ email, username });
 };
@@ -23,4 +29,4 @@ const signin = (req, res) => {
   res.json({ email });
 };
 
-module.exports = { signup, signin };
+export { signup, signin };

@@ -1,10 +1,10 @@
-require("module-alias/register");
+// index.js
+import express from "express";
 
-const express = require("express");
-const core = require("./core");
-const middlewares = require("./middlewares");
-const router = require("./router");
-const { home } = require("./controller");
+import {init} from "./core/index.js";
+import middlewares from "./middlewares/index.js";
+import router from "./router/index.js";
+import { home } from "./controller/index.js";
 
 const app = express();
 
@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 (async () => {
-  await core.init();
+  await init();
   app.listen(PORT, () => {
     console.log("Unknown Server Running on port", PORT);
   });

@@ -2,9 +2,10 @@
   "name": "unknown",
   "version": "1.0.2",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch index.js"
+    "dev": "node --watch --import dotenv/config index.js"
   },
   "author": "Augment Plus",
   "license": "ISC",
@@ -18,13 +19,9 @@
     "google-auth-library": "^10.3.0",
     "jsonwebtoken": "^9.0.2",
     "mime-types": "^3.0.1",
-    "module-alias": "^2.2.3",
     "morgan": "^1.10.1"
   },
   "devDependencies": {
     "dotenv": "^17.2.3"
-  },
-  "_moduleAliases": {
-    "@": "."
   }
 }
