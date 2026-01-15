@@ -4,7 +4,10 @@ const fn = require("@/functions");
 const signup = async (req, res) => {
   const { email, password, username } = req.body;
 
-  await axios.post(`https://${process.env.ORACLE}/api/account/create`, {
+  const url = `https://${process.env.ORACLE}/api/account/create`;
+
+  console.log(url);
+  await axios.post(url, {
     uid: fn.utility.generateUID(),
     username,
     email,
