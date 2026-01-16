@@ -18,8 +18,8 @@
         <h2 class="text-lg font-semibold capitalize">
           {{ pluralize(entity.name) }}
         </h2>
-        <p class="text-gray-500">{{ entity.total }} items</p>
-        <div class="mt-2 flex gap-1">
+        <p class="text-gray-500">{{ entity.total }}</p>
+        <!-- <div class="mt-2 flex gap-1">
           <img
             v-for="(item, i) in (entity.preview || []).slice(0, 3)"
             :key="i"
@@ -27,7 +27,7 @@
             class="w-10 h-10 object-cover rounded"
             alt="preview"
           />
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
