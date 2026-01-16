@@ -21,18 +21,16 @@ app.set("trust proxy", true);
 // Global middlewares
 app.use(middlewares);
 
-
 // Recreate __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, "client/dist")));
-
-// Catch-all fallback for unknown domains → serves default client
-app.use(serveClientFallback);
-
 // API routes
 app.use("/api", router);
+
+// Catch-all fallback for unknown domains → serves default client
+app.use(express.static(path.join(__dirname, "client/dist")));
+app.use(serveClientFallback);
 
 // SPA fallback
 app.use((req, res, next) => {

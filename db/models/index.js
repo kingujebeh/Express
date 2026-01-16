@@ -30,8 +30,8 @@ const existence = {
     Tournament: {},
     Courses: {},
 
-    Domain: {},
     Vendor: {},
+    Event:{},
     Web: {},
 };
 
