@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@unocss/preset-wind3": "^66.6.0",
     "pinia": "^3.0.4",
     "pluralize": "^8.0.0",
     "vue": "^3.5.24",

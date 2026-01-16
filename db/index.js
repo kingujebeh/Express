@@ -36,7 +36,7 @@ const institutionsDB = await createDB("institutions", institutions);
 
 console.info("✔ Databases initialized");
 console.info("Existence models:", Object.keys(existenceDB.models));
-console.info("Item models:", Object.keys(productsDB.models));
+console.info("Product models:", Object.keys(productsDB.models));
 console.info("Institution models:", Object.keys(institutionsDB.models));
 
 // Export directly as named exports
