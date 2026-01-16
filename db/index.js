@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { DB } from "../class/index.js";
-import { existence, items } from "./models/index.js";
+import { existence, items, institutions } from "./models/index.js";
 
 const { MONGODB_USERNAME, MONGODB_PASSWORD, MONGODB_URI } = process.env;
 
@@ -32,10 +32,16 @@ const createDB = async (dbName, modelsObj) => {
 // Initialize databases
 const existenceDB = await createDB("existence", existence);
 const itemsDB = await createDB("items", items);
+const institutionsDB = await createDB("institutions", institutions);
 
 console.info("✔ Databases initialized");
 console.info("Existence models:", Object.keys(existenceDB.models));
-console.info("Items models:", Object.keys(itemsDB.models));
+console.info("Item models:", Object.keys(itemsDB.models));
+console.info("Institution models:", Object.keys(institutionsDB.models));
 
 // Export directly as named exports
-export { existenceDB as existence, itemsDB as items };
+export {
+  existenceDB as existence,
+  itemsDB as items,
+  institutionsDB as institutions,
+};

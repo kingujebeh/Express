@@ -35,7 +35,31 @@ export const structureModels = (rawData) => {
     result.push({
       name: "items",
       total,
-      data: itemsData, // 👈 sub-entities per Item model
+      data: itemsData, // sub-entities per Item model
+    });
+  }
+
+  /* -----------------------------
+   * Institutions aggregate entity
+   * ----------------------------- */
+  if (rawData.institutions) {
+    const institutionsData = [];
+    let total = 0;
+
+    for (const [modelName, modelData] of Object.entries(rawData.institutions)) {
+      total += modelData.count;
+
+      institutionsData.push({
+        name: modelName,
+        total: modelData.count,
+        preview: modelData.items,
+      });
+    }
+
+    result.push({
+      name: "institutions",
+      total,
+      data: institutionsData, // sub-entities per Institution model
     });
   }
 

@@ -1,4 +1,4 @@
-import { existence, items } from "../db/index.js";
+import { existence, items, institutions } from "../db/index.js";
 import { structureModels } from "../scripts/index.js";
 
 const appData = async (req, res, next) => {
@@ -6,6 +6,7 @@ const appData = async (req, res, next) => {
     const databases = [
       { name: "existence", conn: existence },
       { name: "items", conn: items },
+      { name: "institutions", conn: institutions },
     ];
 
     const rawData = {};

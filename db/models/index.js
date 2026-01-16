@@ -24,4 +24,12 @@ const items = {
   Vehicle: {},
 };
 
-export { existence, items };
+const institutions = {
+  School: {},
+  Bank: {},
+  Hospital: {},
+  University: {},
+  Academy: {},
+};
+
+export { existence, items, institutions };
