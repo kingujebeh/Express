@@ -7,7 +7,7 @@ const SALT_ROUNDS = 12;
 const userSchema = new mongoose.Schema(
   {
     _id: {
-      type: String, // UID (e.g. generated uuid / nanoid)
+      type: String,
       required: true,
     },
 
@@ -21,27 +21,21 @@ const userSchema = new mongoose.Schema(
     },
 
     name: {
-      first: {
-        type: String,
-        trim: true,
-        default: "",
-      },
-      middle: {
-        type: String,
-        trim: true,
-        default: "",
-      },
-      last: {
-        type: String,
-        trim: true,
-        default: "",
-      },
-      titles: [
-        {
-          type: String, // e.g. "Dr", "Engr", "Prof"
-          trim: true,
-        },
-      ],
+      first: { type: String, trim: true, default: "" },
+      middle: { type: String, trim: true, default: "" },
+      last: { type: String, trim: true, default: "" },
+      titles: [{ type: String, trim: true }],
+    },
+
+    /* ---------------------------
+     * Sex
+     * --------------------------- */
+    sex: {
+      type: String,
+      enum: ["male", "female", "not specified"],
+      default: "not specified",
+      lowercase: true,
+      index: true,
     },
 
     email: {
@@ -56,7 +50,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      select: false, // never returned by default
+      select: false,
     },
   },
   {
@@ -68,10 +62,9 @@ const userSchema = new mongoose.Schema(
 /* ---------------------------
  * Hooks
  * --------------------------- */
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
-  next();
 });
 
 /* ---------------------------
