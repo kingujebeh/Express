@@ -12,16 +12,16 @@ import vendor from "./vendor.js";
 import video from "./video.js";
 
 export default {
-  accomodation,
-  courses,
-  event,
-  game,
-  league,
-  music,
-  post,
-  team,
-  tournament,
+  // accomodation,
+  // courses,
+  // event,
+  // game,
+  // league,
+  // music,
+  // post,
+  // team,
+  // tournament,
   user,
-  vendor,
-  video,
+  // vendor,
+  // video,
 };

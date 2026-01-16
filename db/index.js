@@ -12,7 +12,7 @@ if (!MONGODB_USERNAME || !MONGODB_PASSWORD || !MONGODB_URI) {
 /**
  * Create an Entity (database) and attach models
  */
-const createDB = async (dbName, modelsObj) => {
+const createDB = async (dbName, schemas) => {
   const uri = `mongodb+srv://${encodeURIComponent(
     MONGODB_USERNAME
   )}:${encodeURIComponent(MONGODB_PASSWORD)}@${MONGODB_URI}`;
@@ -20,13 +20,8 @@ const createDB = async (dbName, modelsObj) => {
   const entity = new DB({ name: dbName });
   await entity.connect(uri);
 
-  for (const modelName of Object.keys(modelsObj)) {
-    const ModelName = capitalize(modelName);
-
-    entity.addModel(
-      ModelName,
-      new mongoose.Schema({}, { strict: false, timestamps: true })
-    );
+  for (const [modelName, schema] of Object.entries(schemas)) {
+    entity.addModel(capitalize(modelName), schema); // ✅ real schema
   }
 
   return entity;
