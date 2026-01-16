@@ -16,34 +16,36 @@
         @click="navigateTo(entity.name)"
       >
         <h2 class="text-lg font-semibold capitalize">
-          {{ pluralize(entity.name) }}
+          {{ displayName(entity.name) }}
         </h2>
         <p class="text-gray-500">{{ entity.total }}</p>
-        <!-- <div class="mt-2 flex gap-1">
-          <img
-            v-for="(item, i) in (entity.preview || []).slice(0, 3)"
-            :key="i"
-            :src="item.thumbnail || 'default.png'"
-            class="w-10 h-10 object-cover rounded"
-            alt="preview"
-          />
-        </div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-import pluralize from "pluralize";
-import { useAppStore } from "../store";
-
-const router = useRouter();
-const { name, data } = useAppStore();
-
-const entities = data; // already structured via structureModels()
-
-function navigateTo(name) {
-  router.push(`/${pluralize(name.toLowerCase())}`);
-}
-</script>
+  import { useRouter } from "vue-router";
+  import pluralize from "pluralize";
+  import { useAppStore } from "../store";
+  
+  const router = useRouter();
+  const { name, data } = useAppStore();
+  
+  const entities = data;
+  
+  function displayName(entityName) {
+    if (entityName.toLowerCase() === "web") return "Web";
+    return pluralize(entityName);
+  }
+  
+  function routeName(entityName) {
+    if (entityName.toLowerCase() === "web") return "web";
+    return pluralize(entityName.toLowerCase());
+  }
+  
+  function navigateTo(name) {
+    router.push(`/${routeName(name)}`);
+  }
+  </script>
+  
