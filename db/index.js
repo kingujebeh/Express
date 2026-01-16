@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { DB } from "../class/index.js";
-import { existence, products, institutions } from "./models/index.js";
+import { existence, products, institutions, web } from "./schemas/index.js";
+import { capitalize } from "../functions/index.js";
 
 const { MONGODB_USERNAME, MONGODB_PASSWORD, MONGODB_URI } = process.env;
 
@@ -20,8 +21,10 @@ const createDB = async (dbName, modelsObj) => {
   await entity.connect(uri);
 
   for (const modelName of Object.keys(modelsObj)) {
+    const ModelName = capitalize(modelName);
+
     entity.addModel(
-      modelName,
+      ModelName,
       new mongoose.Schema({}, { strict: false, timestamps: true })
     );
   }
@@ -33,15 +36,18 @@ const createDB = async (dbName, modelsObj) => {
 const existenceDB = await createDB("existence", existence);
 const productsDB = await createDB("products", products);
 const institutionsDB = await createDB("institutions", institutions);
+const webDB = await createDB("web", web);
 
 console.info("✔ Databases initialized");
 console.info("Existence models:", Object.keys(existenceDB.models));
 console.info("Product models:", Object.keys(productsDB.models));
 console.info("Institution models:", Object.keys(institutionsDB.models));
+console.info("Web models:", Object.keys(webDB.models));
 
 // Export directly as named exports
 export {
   existenceDB as existence,
   productsDB as products,
   institutionsDB as institutions,
+  webDB as web,
 };

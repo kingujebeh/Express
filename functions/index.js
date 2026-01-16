@@ -30,4 +30,6 @@ export function getFile(subname = "krane", reqPath = "/") {
   return bucket.file(path.join("client", "dist", subname, filePath));
 }
 
-export {  };
+export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
+export const emailToUsername = (email) => ''
