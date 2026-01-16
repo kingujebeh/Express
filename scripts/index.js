@@ -2,21 +2,41 @@
 export const structureModels = (rawData) => {
   const result = [];
 
-  for (const [dbName, models] of Object.entries(rawData)) {
-    const dbBlock = {
-      database: dbName,
-      data: [],
-    };
+  /* -----------------------------
+   * Existence models (flattened)
+   * ----------------------------- */
+  if (rawData.existence) {
+    for (const [modelName, modelData] of Object.entries(rawData.existence)) {
+      result.push({
+        name: modelName,
+        total: modelData.count,
+        preview: modelData.items,
+      });
+    }
+  }
 
-    for (const [modelName, modelData] of Object.entries(models)) {
-      dbBlock.data.push({
+  /* -----------------------------
+   * Items aggregate entity
+   * ----------------------------- */
+  if (rawData.items) {
+    const itemsData = [];
+    let total = 0;
+
+    for (const [modelName, modelData] of Object.entries(rawData.items)) {
+      total += modelData.count;
+
+      itemsData.push({
         name: modelName,
         total: modelData.count,
         preview: modelData.items,
       });
     }
 
-    result.push(dbBlock);
+    result.push({
+      name: "items",
+      total,
+      data: itemsData, // 👈 sub-entities per Item model
+    });
   }
 
   return result;

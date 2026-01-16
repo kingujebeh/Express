@@ -7,14 +7,14 @@ export const useAppStore = defineStore("app", () => {
   // state
   const name = ref("the-great-unknown");
   const initialized = ref(false);
-  const data = reactive({});
+  const data = reactive([]);
 
   // actions
   async function init() {
     try {
       const res = await axios.get(`/api/data/${name.value}`);
 
-      Object.assign(data, res.data);
+      data.push(...res.data);
       console.log(data);
 
       initialized.value = true;
