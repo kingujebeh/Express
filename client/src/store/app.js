@@ -12,7 +12,7 @@ export const useAppStore = defineStore("app", () => {
   // actions
   async function init() {
     try {
-      const res = await axios.get(`/api/data/${name.value}`);
+      const res = await axios.get("/api/data");
 
       data.push(...res.data);
       console.log(data);

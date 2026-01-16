@@ -10,6 +10,6 @@ const router = express.Router();
 router.use("/auth", authRouter);
 
 // Data
-router.get("/data/:app", data.appData);
+router.get("/data", data.appData);
 
 export default router;
