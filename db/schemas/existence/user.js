@@ -23,8 +23,8 @@ const userSchema = new mongoose.Schema(
     name: {
       first: {
         type: String,
-        required: true,
         trim: true,
+        default: "",
       },
       middle: {
         type: String,
@@ -33,8 +33,8 @@ const userSchema = new mongoose.Schema(
       },
       last: {
         type: String,
-        required: true,
         trim: true,
+        default: "",
       },
       titles: [
         {
