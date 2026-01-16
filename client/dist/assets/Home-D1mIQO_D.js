@@ -1,1 +1,0 @@
-import{u as o,c as r,a as e,t as a,b as t,o as c}from"./index-CVtWWOLe.js";const m={__name:"Home",setup(l){const{name:s,data:n}=o();return(p,u)=>(c(),r("div",null,[e("h3",null,a(t(s)),1),e("pre",null,a(t(n)),1)]))}};export{m as default};
