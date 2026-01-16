@@ -7,7 +7,6 @@ const existence = {
   Music: {},
   Apartment: {},
   Product: {},
-  Software: {},
   Game: {},
   Team: {},
   Leauge: {},
