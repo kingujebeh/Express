@@ -28,5 +28,6 @@ export const useAppStore = defineStore("app", () => {
     name,
     data,
     init,
+    initialized
   };
 });

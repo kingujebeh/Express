@@ -2,8 +2,7 @@
   <div class="p-6">
     <!-- Header -->
     <div class="mb-6 flex justify-between items-center">
-      <h1 class="text-2xl font-bold">{{ pluralize(entityName) }}</h1>
-      <span class="text-gray-500">{{ total }} items</span>
+      <h1 class="text-2xl font-bold">{{ name }}</h1>
     </div>
 
     <!-- Grid -->
@@ -16,7 +15,9 @@
         class="bg-white shadow rounded p-4 hover:shadow-lg cursor-pointer"
         @click="navigateTo(entity.name)"
       >
-        <h2 class="text-lg font-semibold capitalize">{{ entity.name }}</h2>
+        <h2 class="text-lg font-semibold capitalize">
+          {{ pluralize(entity.name) }}
+        </h2>
         <p class="text-gray-500">{{ entity.total }} items</p>
         <div class="mt-2 flex gap-1">
           <img
@@ -33,19 +34,16 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import pluralize from "pluralize";
 import { useAppStore } from "../store";
 
 const router = useRouter();
-const { data } = useAppStore();
+const { name, data } = useAppStore();
 
-console.log(data);
-const entityName = "Entities"; // can be dynamic based on route
 const entities = data; // already structured via structureModels()
-const total = entities.reduce((sum, e) => sum + e.total, 0);
 
 function navigateTo(name) {
-  router.push(`/entity/${name.toLowerCase()}`);
+  router.push(`/${pluralize(name.toLowerCase())}`);
 }
 </script>
