@@ -1,4 +1,4 @@
-import { existence, products, institutions } from "../db/index.js";
+import { existence, products, institutions, web } from "../db/index.js";
 
 const appData = async (req, res, next) => {
   try {
@@ -6,6 +6,7 @@ const appData = async (req, res, next) => {
       { name: "existence", conn: existence },
       { name: "products", conn: products },
       { name: "institutions", conn: institutions },
+      { name: "web", conn: web },
     ];
 
     const rawData = {};
@@ -92,6 +93,30 @@ const appData = async (req, res, next) => {
         name: "institutions",
         total,
         data: institutionsData, // sub-entities per Institution model
+      });
+    }
+
+    /* -----------------------------
+     * Web aggregate entity
+     * ----------------------------- */
+    if (rawData.web) {
+      const webData = [];
+      let total = 0;
+
+      for (const [modelName, modelData] of Object.entries(rawData.web)) {
+        total += modelData.count;
+
+        webData.push({
+          name: modelName,
+          total: modelData.count,
+          preview: modelData.products,
+        });
+      }
+
+      result.push({
+        name: "web",
+        total,
+        data: webData, // sub-entities per Web model
       });
     }
 
