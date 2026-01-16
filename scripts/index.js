@@ -10,32 +10,32 @@ export const structureModels = (rawData) => {
       result.push({
         name: modelName,
         total: modelData.count,
-        preview: modelData.items,
+        preview: modelData.products,
       });
     }
   }
 
   /* -----------------------------
-   * Items aggregate entity
+   * products aggregate entity
    * ----------------------------- */
-  if (rawData.items) {
-    const itemsData = [];
+  if (rawData.products) {
+    const productsData = [];
     let total = 0;
 
-    for (const [modelName, modelData] of Object.entries(rawData.items)) {
+    for (const [modelName, modelData] of Object.entries(rawData.products)) {
       total += modelData.count;
 
-      itemsData.push({
+      productsData.push({
         name: modelName,
         total: modelData.count,
-        preview: modelData.items,
+        preview: modelData.products,
       });
     }
 
     result.push({
-      name: "items",
+      name: "products",
       total,
-      data: itemsData, // sub-entities per Item model
+      data: productsData, // sub-entities per Item model
     });
   }
 
@@ -52,7 +52,7 @@ export const structureModels = (rawData) => {
       institutionsData.push({
         name: modelName,
         total: modelData.count,
-        preview: modelData.items,
+        preview: modelData.products,
       });
     }
 

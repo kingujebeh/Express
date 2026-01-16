@@ -6,7 +6,6 @@ const existence = {
   Video: {},
   Music: {},
   Apartment: {},
-  Product: {},
   Game: {},
   Team: {},
   Leauge: {},
@@ -17,7 +16,8 @@ const existence = {
   Web: {},
 };
 
-const items = {
+const products = {
+  Book: {},
   Drink: {},
   Watch: {},
   Perfume: {},
@@ -30,6 +30,7 @@ const institutions = {
   Hospital: {},
   University: {},
   Academy: {},
+  Hotels: {},
 };
 
-export { existence, items, institutions };
+export { existence, products, institutions };
