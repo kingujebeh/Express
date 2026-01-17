@@ -32,6 +32,15 @@ export const typeDefs = gql`
     seminar: String
   }
 
+  type Place {
+    cities: String
+    countries: String
+    states: String
+    kingdoms: String
+    realms: String
+    towns: String
+  }
+
   type Query {
     health: String
     events: Events
@@ -47,13 +56,8 @@ export const typeDefs = gql`
     vendors: String
     videos: String
     institutions: Institution
-    countries: String
-    states: String
-    kingdoms: String
-    realms: String
-    towns: String
-    cities: String
     products: Product
     workstations: String
+    places: Place
   }
 `;
