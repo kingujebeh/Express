@@ -14,9 +14,7 @@
   "dependencies": {
     "@apollo/server": "^4.12.2",
     "@google-cloud/storage": "^7.17.0",
-    "axios": "^1.11.0",
     "bcrypt": "^6.0.0",
-    "body-parser": "^2.2.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^5.1.0",
