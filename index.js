@@ -1,7 +1,10 @@
 // index.js
-import express from "express";
+
 import http from "http";
 import path from "path";
+
+import express from "express";
+
 import { fileURLToPath } from "url"; // <-- required for ES modules
 
 import { init } from "./core/index.js";
@@ -15,6 +18,12 @@ import initBabyClaraWS from "./server/babyclara.ws.js";
 import initChessWS from "./server/chess.ws.js";
 import initLudoWS from "./server/ludo.ws.js";
 
+// GraphQL
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import { typeDefs } from "./graphql/schema.js";
+import { resolvers } from "./graphql/resolvers.js";
+
 const app = express();
 app.set("trust proxy", true);
 
@@ -25,8 +34,20 @@ app.use(middlewares);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// API routes
-app.use("/api", router);
+/* -------------------------
+   Apollo GraphQL
+-------------------------- */
+const apollo = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+
+await apollo.start();
+
+app.use(
+  "/graphql",
+  expressMiddleware(apollo)
+);
 
 // Catch-all fallback for unknown domains → serves default client
 app.use(express.static(path.join(__dirname, "client/dist")));

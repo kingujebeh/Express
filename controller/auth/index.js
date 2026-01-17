@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { existence } from "../../db/index.js";
 import { emailToUsername } from "../../functions/index.js";
-import { signAccessToken, signRefreshToken } from "../../utility/token.js";
+import { signAccessToken, signRefreshToken } from "../../utility/jwt.js";
 
 const generateUniqueUsername = async (baseUsername) => {
   let username = baseUsername;
