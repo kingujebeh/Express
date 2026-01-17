@@ -5,7 +5,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 
-export const httpsRedirect = (req, res, next) => {
+const httpsRedirect = (req, res, next) => {
   if (
     process.env.NODE_ENV === "production" &&
     req.headers["x-forwarded-proto"] &&
@@ -16,21 +16,22 @@ export const httpsRedirect = (req, res, next) => {
   next();
 };
 
-export const verifyJWT = (req, res, next) => {
-  const token = req.cookies?.session; // optional chaining in case cookies is undefined
+const auth = (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-  if (token) {
-    try {
-      req.user = jwt.verify(token, process.env.JWT_SECRET); // attach user data
-    } catch (err) {
-      console.error("JWT verification failed:", err);
-      req.user = null;
-    }
-  } else {
-    req.user = null;
+  if (!authHeader?.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
-  next();
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+    req.user = payload;
+    next();
+  } catch {
+    res.status(401).json({ message: "Invalid or expired token" });
+  }
 };
 
 // Array of middlewares to use globally
@@ -41,7 +42,7 @@ const middlewares = [
   cookieParser(),
   express.json(),
   express.urlencoded({ extended: true }),
-  verifyJWT,
+  auth,
 ];
 
 export default middlewares;

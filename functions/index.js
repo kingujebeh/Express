@@ -32,4 +32,4 @@ export function getFile(subname = "krane", reqPath = "/") {
 
 export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-export const emailToUsername = (email) => ''
+export const emailToUsername = (email) => "";

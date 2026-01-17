@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { existence } from "../../db/index.js";
 import { emailToUsername } from "../../functions/index.js";
+import { signAccessToken, signRefreshToken } from "../../utility/token.js";
 
 const generateUniqueUsername = async (baseUsername) => {
   let username = baseUsername;
@@ -37,7 +38,7 @@ const signup = async (req, res) => {
     username = await generateUniqueUsername(username);
 
     // 32-char UID (no dashes)
-    const uid = randomUUID().replace(/-/g, "");
+    const uid = randomUUID({ version: 7 }).replace(/-/g, "");
 
     const user = await existence.models.User.create({
       _id: uid,
@@ -100,14 +101,26 @@ const signin = async (req, res) => {
       });
     }
 
+    // 🔐 Issue tokens
+    const accessToken = signAccessToken(user);
+    const refreshToken = signRefreshToken(user);
+
+    // 🍪 Secure refresh token cookie
+    res.cookie("refresh_token", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    });
+
     res.json({
       success: true,
+      accessToken,
       user: {
         uid: user._id,
         username: user.username,
         email: user.email,
         fullname: user.fullname,
-        createdAt: user.createdAt,
       },
     });
   } catch (err) {
