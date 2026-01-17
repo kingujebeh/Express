@@ -47,8 +47,8 @@ const signup = async (req, res) => {
     });
 
     res.status(201).json({
-      uid: user._id,
-      username: user.username,
+      success: true,
+      message: "Account created",
       email: user.email,
     });
   } catch (error) {
@@ -65,8 +65,58 @@ const signup = async (req, res) => {
 };
 
 const signin = async (req, res) => {
-  const { email, password } = req.body;
-  res.json({ email });
+  try {
+    const { username, email, password } = req.body;
+
+    if ((!username && !email) || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "username or email and password are required",
+      });
+    }
+
+    // Flexible identifier
+    const query = email
+      ? { email: email.toLowerCase() }
+      : { username: username.toLowerCase() };
+
+    const User = existence.models.User;
+
+    const user = await User.findOne(query).select("+password");
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    const isValid = await user.comparePassword(password);
+
+    if (!isValid) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    res.json({
+      success: true,
+      user: {
+        uid: user._id,
+        username: user.username,
+        email: user.email,
+        fullname: user.fullname,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (err) {
+    console.error("Signin error:", err);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
 };
 
 export { signup, signin };
