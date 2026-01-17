@@ -1,5 +1,5 @@
-import '@unocss/reset/tailwind.css'
-import 'uno.css'
+import "@unocss/reset/tailwind.css";
+import "uno.css";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
@@ -13,4 +13,5 @@ const pinia = createPinia();
 
 app.use(pinia);
 app.use(router);
+
 app.mount("#app");

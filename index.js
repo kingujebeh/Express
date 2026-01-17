@@ -10,7 +10,6 @@ import { fileURLToPath } from "url"; // <-- required for ES modules
 import { init } from "./core/index.js";
 import middlewares from "./middlewares/index.js";
 import serveClientFallback from "./middlewares/domains.js";
-import router from "./router/index.js";
 import { home } from "./controller/index.js";
 
 // WS servers

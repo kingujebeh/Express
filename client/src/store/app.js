@@ -1,7 +1,10 @@
 // stores/user.js
 import { defineStore } from "pinia";
-import axios from "axios";
 import { ref, reactive } from "vue";
+
+import { useQuery } from "@vue/apollo-composable";
+
+
 
 export const useAppStore = defineStore("app", () => {
   // state
