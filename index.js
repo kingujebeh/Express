@@ -7,7 +7,6 @@ import express from "express";
 
 import { fileURLToPath } from "url"; // <-- required for ES modules
 
-import { init } from "./core/index.js";
 import middlewares from "./middlewares/index.js";
 import serveClientFallback from "./middlewares/domains.js";
 import { home } from "./controller/index.js";
@@ -22,6 +21,7 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { typeDefs } from "./graphql/schema.js";
 import { resolvers } from "./graphql/resolvers.js";
+import { context } from "./graphql/context/index.js";
 
 const app = express();
 app.set("trust proxy", true);
@@ -39,14 +39,12 @@ const __dirname = path.dirname(__filename);
 const apollo = new ApolloServer({
   typeDefs,
   resolvers,
+  context,
 });
 
 await apollo.start();
 
-app.use(
-  "/graphql",
-  expressMiddleware(apollo)
-);
+app.use("/graphql", expressMiddleware(apollo));
 
 // Catch-all fallback for unknown domains → serves default client
 app.use(express.static(path.join(__dirname, "client/dist")));
@@ -60,8 +58,6 @@ app.use((req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 (async () => {
-  await init();
-
   const server = http.createServer(app);
 
   // Attach WebSocket servers

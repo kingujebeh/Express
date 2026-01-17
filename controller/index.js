@@ -3,10 +3,6 @@ import path from "path";
 import mime from "mime-types";
 
 import * as fn from "../functions/index.js";
-import { real } from "../data/index.js";
-
-import * as auth from "./auth/index.js";
-import * as data from "./data.js";
 
 const subdomains = ["i", "handyman", "handyfix", "fairpay"];
 
@@ -58,4 +54,4 @@ const home = async (req, res, next) => {
   }
 };
 
-export { home, data, auth };
+export { home };

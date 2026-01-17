@@ -1,0 +1,17 @@
+type Product {
+  id: ID!
+  name: String!
+  description: String
+  price: Float
+  institution: Institution
+  place: Place
+  createdAt: String!
+}
+
+input ProductInput {
+  name: String!
+  description: String
+  price: Float
+  institutionId: ID
+  placeId: ID
+}
