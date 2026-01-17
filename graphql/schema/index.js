@@ -1,14 +1,14 @@
-import { productResolvers } from "../resolvers/product.resolver.js";
-import { institutionResolvers } from "../resolvers/institution.resolver.js";
+import { readFileSync } from "fs";
+import { join } from "path";
 
-export const resolvers = {
-  Query: {
-    ...productResolvers.Query,
-    ...institutionResolvers.Query,
-  },
-  Mutation: {
-    ...productResolvers.Mutation,
-  },
-  Product: productResolvers.Product,
-  Institution: institutionResolvers.Institution,
-};
+const load = (file) =>
+  readFileSync(join(process.cwd(), "graphql/schema", file), "utf8");
+
+export const typeDefs = `
+  ${load("user.gql")}
+  ${load("product.gql")}
+  ${load("place.gql")}
+  ${load("institution.gql")}
+  ${load("query.gql")}
+  ${load("mutation.gql")}
+`;

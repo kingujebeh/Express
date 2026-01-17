@@ -19,8 +19,8 @@ import initLudoWS from "./server/ludo.ws.js";
 // GraphQL
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
-import { typeDefs } from "./graphql/schema.js";
-import { resolvers } from "./graphql/resolvers.js";
+import { typeDefs } from "./graphql/schema/index.js";
+import { resolvers } from "./graphql/resolvers/index.js";
 import { context } from "./graphql/context/index.js";
 
 const app = express();
