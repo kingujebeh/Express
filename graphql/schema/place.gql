@@ -1,0 +1,7 @@
+type Place {
+  id: ID!
+  country: String
+  state: String
+  city: String
+  address: String
+}

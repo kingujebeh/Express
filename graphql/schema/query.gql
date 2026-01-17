@@ -1,0 +1,7 @@
+type Query {
+  products: [Product!]!
+  product(id: ID!): Product
+
+  institutions: [Institution!]!
+  places: [Place!]!
+}

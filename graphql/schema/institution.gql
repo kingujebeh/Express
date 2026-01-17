@@ -1,0 +1,7 @@
+type Institution {
+  id: ID!
+  name: String!
+  description: String
+  place: Place
+  createdAt: String!
+}
