@@ -2,14 +2,13 @@
 import express from "express";
 import authRouter from "./auth/index.js";
 
-import { data } from "../controller/index.js";
-
 const router = express.Router();
 
 // Auth
 router.use("/auth", authRouter);
 
-// Data
-router.get("/data", data.appData);
+router.get("/graphql", (req, res) => {
+  res.send("graphql");
+});
 
 export default router;

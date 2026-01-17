@@ -3,7 +3,6 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import jwt from "jsonwebtoken";
 
 const httpsRedirect = (req, res, next) => {
   if (
@@ -16,23 +15,6 @@ const httpsRedirect = (req, res, next) => {
   next();
 };
 
-const auth = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-
-  const token = authHeader.split(" ")[1];
-
-  try {
-    const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-    req.user = payload;
-    next();
-  } catch {
-    res.status(401).json({ message: "Invalid or expired token" });
-  }
-};
 
 // Array of middlewares to use globally
 const middlewares = [
@@ -42,7 +24,6 @@ const middlewares = [
   cookieParser(),
   express.json(),
   express.urlencoded({ extended: true }),
-  auth,
 ];
 
 export default middlewares;
