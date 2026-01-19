@@ -6,8 +6,14 @@ type User {
 }
 
 type AuthPayload {
-  user: User!
-  token: String!
+  token: String
+  user: User
+  error: AuthError
+}
+
+type AuthError {
+  code: String!
+  message: String!
 }
 
 input SignUpInput {
