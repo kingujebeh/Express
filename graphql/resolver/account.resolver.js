@@ -11,7 +11,7 @@ export const accountResolver = {
       const { username, email, password } = input;
 
       // 1. Check if user exists in main.users
-      const existing = await db.main.collection("users").findOne({
+      const existing = await db.main.collection("accounts").findOne({
         $or: [{ email }, { username }],
       });
       if (existing) {
@@ -22,25 +22,25 @@ export const accountResolver = {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // 3. Generate a UUID v7 without dashes
-      const userId = uuidv7().replace(/-/g, "");
+      const uid = uuidv7().replace(/-/g, "");
 
       // 4. Insert user into main.users
       const userRecord = {
-        _id: userId,
+        _id: uid,
         username,
         email,
         password: hashedPassword,
         createdAt: new Date(),
       };
-      await db.main.collection("users").insertOne(userRecord);
+      await db.main.collection("accounts").insertOne(userRecord);
 
       // 5. Auto sign in: generate JWT
-      const token = jwt.sign({ userId }, JWT_SECRET, { expiresIn: "30d" });
+      const token = jwt.sign({ uid }, JWT_SECRET, { expiresIn: "30d" });
 
       return {
         token,
         user: {
-          id: userId,
+          id: uid,
           username,
           email,
         },
@@ -52,7 +52,7 @@ export const accountResolver = {
       const { identifier, password } = input;
 
       // 1. Find user by email or username in main.users
-      const user = await db.main.collection("users").findOne({
+      const user = await db.main.collection("accounts").findOne({
         $or: [{ email: identifier }, { username: identifier }],
       });
 
@@ -67,14 +67,14 @@ export const accountResolver = {
       }
 
       // 3. Generate JWT
-      const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+      const token = jwt.sign({ uid: user._id }, JWT_SECRET, {
         expiresIn: "30d",
       });
 
       return {
         token,
         user: {
-          id: user._id,
+          uid: user._id,
           username: user.username,
           email: user.email,
         },
