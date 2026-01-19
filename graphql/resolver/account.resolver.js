@@ -1,43 +1,48 @@
+// /graphql/resolvers/account.resolver.js
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 
-const JWT_SECRET = "super-secret"; // use env var
+const JWT_SECRET = process.env.JWT_SECRET || "super-secret";
 
-export const authResolvers = {
+export const accountResolver = {
   Mutation: {
     signup: async (_, { input }, { db }) => {
       const { username, email, password } = input;
 
+      // 1. Check if user exists
       const existing = await db.users.findOne({
         $or: [{ email }, { username }],
       });
-
       if (existing) {
         throw new Error("User already exists");
       }
 
+      // 2. Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const user = await db.users.insertOne({
+      // 3. Generate a UUID without dashes for _id
+      const userId = uuidv4().replace(/-/g, "");
+
+      // 4. Insert user with UUID
+      const userRecord = {
+        _id: userId,
         username,
         email,
         password: hashedPassword,
         createdAt: new Date(),
-      });
+      };
+      await db.users.insertOne(userRecord);
 
-      const token = jwt.sign(
-        { userId: user.insertedId },
-        JWT_SECRET,
-        { expiresIn: "7d" }
-      );
+      // 5. Auto sign in: generate JWT
+      const token = jwt.sign({ userId }, JWT_SECRET, { expiresIn: "7d" });
 
       return {
         token,
         user: {
-          id: user.insertedId,
+          id: userId,
           username,
           email,
-          createdAt: new Date(),
         },
       };
     },
@@ -45,6 +50,7 @@ export const authResolvers = {
     signin: async (_, { input }, { db }) => {
       const { identifier, password } = input;
 
+      // 1. Find user by email or username
       const user = await db.users.findOne({
         $or: [{ email: identifier }, { username: identifier }],
       });
@@ -53,20 +59,24 @@ export const authResolvers = {
         throw new Error("Invalid credentials");
       }
 
+      // 2. Check password
       const valid = await bcrypt.compare(password, user.password);
       if (!valid) {
         throw new Error("Invalid credentials");
       }
 
-      const token = jwt.sign(
-        { userId: user._id },
-        JWT_SECRET,
-        { expiresIn: "7d" }
-      );
+      // 3. Generate JWT
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+        expiresIn: "7d",
+      });
 
       return {
         token,
-        user,
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+        },
       };
     },
   },

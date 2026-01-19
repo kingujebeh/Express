@@ -20,8 +20,11 @@ import initLudoWS from "./server/ludo.ws.js";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { typeDefs } from "./graphql/schema/index.js";
-import { resolvers } from "./graphql/resolvers/index.js";
+import { resolvers } from "./graphql/resolver/index.js";
 import { context } from "./graphql/context/index.js";
+import { connectDatabases, getDatabases } from "./graphql/service/db.js";
+
+await connectDatabases()
 
 const app = express();
 app.set("trust proxy", true);
