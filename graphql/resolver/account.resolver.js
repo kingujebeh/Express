@@ -10,8 +10,8 @@ export const accountResolver = {
     signup: async (_, { input }, { db }) => {
       const { username, email, password } = input;
 
-      // 1. Check if user exists
-      const existing = await db.users.findOne({
+      // 1. Check if user exists in main.users
+      const existing = await db.main.collection("users").findOne({
         $or: [{ email }, { username }],
       });
       if (existing) {
@@ -24,7 +24,7 @@ export const accountResolver = {
       // 3. Generate a UUID without dashes for _id
       const userId = uuidv4().replace(/-/g, "");
 
-      // 4. Insert user with UUID
+      // 4. Insert user into main.users
       const userRecord = {
         _id: userId,
         username,
@@ -32,10 +32,10 @@ export const accountResolver = {
         password: hashedPassword,
         createdAt: new Date(),
       };
-      await db.users.insertOne(userRecord);
+      await db.main.collection("users").insertOne(userRecord);
 
       // 5. Auto sign in: generate JWT
-      const token = jwt.sign({ userId }, JWT_SECRET, { expiresIn: "7d" });
+      const token = jwt.sign({ userId }, JWT_SECRET, { expiresIn: "30d" });
 
       return {
         token,
@@ -50,8 +50,8 @@ export const accountResolver = {
     signin: async (_, { input }, { db }) => {
       const { identifier, password } = input;
 
-      // 1. Find user by email or username
-      const user = await db.users.findOne({
+      // 1. Find user by email or username in main.users
+      const user = await db.main.collection("users").findOne({
         $or: [{ email: identifier }, { username: identifier }],
       });
 
@@ -67,7 +67,7 @@ export const accountResolver = {
 
       // 3. Generate JWT
       const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-        expiresIn: "7d",
+        expiresIn: "30d",
       });
 
       return {
