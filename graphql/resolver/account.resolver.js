@@ -28,11 +28,11 @@ export const accountResolver = {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // 3️⃣ Generate UUID v7 without dashes
-        const uid = uuidv7().replace(/-/g, "");
+        const id = uuidv7().replace(/-/g, "");
 
         // 4️⃣ Insert user
         const userRecord = {
-          _id: uid,
+          _id: id,
           username,
           email,
           password: hashedPassword,
@@ -41,11 +41,11 @@ export const accountResolver = {
         await db.main.collection("accounts").insertOne(userRecord);
 
         // 5️⃣ Generate JWT
-        const token = jwt.sign({ uid }, JWT_SECRET, { expiresIn: "30d" });
+        const token = jwt.sign({ id }, JWT_SECRET, { expiresIn: "30d" });
 
         return {
           token,
-          user: { uid, username, email },
+          user: { id, username, email },
           error: null,
         };
       } catch (err) {
@@ -92,13 +92,13 @@ export const accountResolver = {
         }
 
         // 3️⃣ Generate JWT
-        const token = jwt.sign({ uid: user._id }, JWT_SECRET, {
+        const token = jwt.sign({ id: user._id }, JWT_SECRET, {
           expiresIn: "30d",
         });
 
         return {
           token,
-          user: { uid: user._id, username: user.username, email: user.email },
+          user: { id: user._id, username: user.username, email: user.email },
           error: null,
         };
       } catch (err) {

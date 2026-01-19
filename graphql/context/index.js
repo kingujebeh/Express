@@ -10,16 +10,16 @@ export const context = async ({ req }) => {
   const token = req.headers.authorization?.replace("Bearer ", "");
 
   // 3. Decode token if it exists
-  let uid;
+  let id;
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET || "super-secret");
-      uid = decoded.userId;
+      id = decoded.userId;
     } catch (err) {
       console.warn("⚠️ Invalid JWT token:", err.message);
     }
   }
 
   // 4. Return context object
-  return { db, uid };
+  return { db, id };
 };
