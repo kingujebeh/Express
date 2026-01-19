@@ -27,7 +27,14 @@ input SignInInput {
   password: String!
 }
 
+type AuthPayload {
+  token: String!         # access token
+  refreshToken: String!  # refresh token
+  user: User!
+}
+
 type Mutation {
   signup(input: SignUpInput!): AuthPayload!
   signin(input: SignInInput!): AuthPayload!
+  refreshToken(token: String!): AuthPayload!
 }

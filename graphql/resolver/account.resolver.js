@@ -5,6 +5,15 @@ import { v7 as uuidv7 } from "uuid";
 
 const JWT_SECRET = process.env.JWT_SECRET || "super-secret";
 
+// Helper to generate access + refresh tokens
+async function generateTokens(userId) {
+  const accessToken = jwt.sign({ id: userId }, JWT_SECRET, {
+    expiresIn: "15m",
+  });
+  const refreshToken = uuidv7().replace(/-/g, ""); // long random token
+  return { accessToken, refreshToken };
+}
+
 export const accountResolver = {
   Mutation: {
     signup: async (_, { input }, { db }) => {
@@ -19,6 +28,7 @@ export const accountResolver = {
         if (existing) {
           return {
             token: null,
+            refreshToken: null,
             user: null,
             error: { code: "USER_EXISTS", message: "User already exists" },
           };
@@ -40,11 +50,17 @@ export const accountResolver = {
         };
         await db.main.collection("accounts").insertOne(userRecord);
 
-        // 5️⃣ Generate JWT
-        const token = jwt.sign({ id }, JWT_SECRET, { expiresIn: "30d" });
+        // 5️⃣ Generate tokens
+        const { accessToken, refreshToken } = await generateTokens(id);
+
+        // 6️⃣ Save refresh token in DB
+        await db.main
+          .collection("accounts")
+          .updateOne({ _id: id }, { $set: { refreshToken } });
 
         return {
-          token,
+          token: accessToken,
+          refreshToken,
           user: { id, username, email },
           error: null,
         };
@@ -52,6 +68,7 @@ export const accountResolver = {
         console.error("Signup resolver error:", err);
         return {
           token: null,
+          refreshToken: null,
           user: null,
           error: { code: "SIGNUP_FAILED", message: err.message },
         };
@@ -70,6 +87,7 @@ export const accountResolver = {
         if (!user) {
           return {
             token: null,
+            refreshToken: null,
             user: null,
             error: {
               code: "INVALID_CREDENTIALS",
@@ -83,6 +101,7 @@ export const accountResolver = {
         if (!valid) {
           return {
             token: null,
+            refreshToken: null,
             user: null,
             error: {
               code: "INVALID_CREDENTIALS",
@@ -91,13 +110,17 @@ export const accountResolver = {
           };
         }
 
-        // 3️⃣ Generate JWT
-        const token = jwt.sign({ id: user._id }, JWT_SECRET, {
-          expiresIn: "30d",
-        });
+        // 3️⃣ Generate tokens
+        const { accessToken, refreshToken } = await generateTokens(user._id);
+
+        // 4️⃣ Save refresh token in DB
+        await db.main
+          .collection("accounts")
+          .updateOne({ _id: user._id }, { $set: { refreshToken } });
 
         return {
-          token,
+          token: accessToken,
+          refreshToken,
           user: { id: user._id, username: user.username, email: user.email },
           error: null,
         };
@@ -105,8 +128,56 @@ export const accountResolver = {
         console.error("Signin resolver error:", err);
         return {
           token: null,
+          refreshToken: null,
           user: null,
           error: { code: "SIGNIN_FAILED", message: err.message },
+        };
+      }
+    },
+
+    refreshToken: async (_, { token }, { db }) => {
+      try {
+        // 1️⃣ Find user with this refresh token
+        const user = await db.main
+          .collection("accounts")
+          .findOne({ refreshToken: token });
+        if (!user) {
+          return {
+            token: null,
+            refreshToken: null,
+            user: null,
+            error: {
+              code: "INVALID_REFRESH",
+              message: "Invalid refresh token",
+            },
+          };
+        }
+
+        // 2️⃣ Generate new tokens
+        const { accessToken, refreshToken: newRefreshToken } =
+          await generateTokens(user._id);
+
+        // 3️⃣ Update refresh token in DB
+        await db.main
+          .collection("accounts")
+          .updateOne(
+            { _id: user._id },
+            { $set: { refreshToken: newRefreshToken } }
+          );
+
+        return {
+          token: accessToken,
+          refreshToken: newRefreshToken,
+          user: { id: user._id, username: user.username, email: user.email },
+          error: null,
+        };
+      } catch (err) {
+        console.error("RefreshToken resolver error:", err);
+        return {
+          token: null,
+          refreshToken: null,
+          user: null,
+          error: { code: "REFRESH_FAILED", message: err.message },
         };
       }
     },
