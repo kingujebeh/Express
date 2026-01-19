@@ -9,6 +9,7 @@ export const accountResolver = {
   Mutation: {
     signup: async (_, { input }, { db }) => {
       const { username, email, password } = input;
+      console.log(db);
 
       // 1. Check if user exists in main.users
       const existing = await db.main.collection("users").findOne({
