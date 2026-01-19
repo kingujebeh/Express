@@ -2,29 +2,25 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { v7 as uuidv7 } from "uuid";
-import { GraphQLError } from "graphql";
 
 const JWT_SECRET = process.env.JWT_SECRET || "super-secret";
-
-function mapError(message, code) {
-  return new GraphQLError(message, {
-    extensions: { code },
-  });
-}
 
 export const accountResolver = {
   Mutation: {
     signup: async (_, { input }, { db }) => {
-      try {
-        const { username, email, password } = input;
+      const { username, email, password } = input;
 
+      try {
         // 1️⃣ Check if user exists
         const existing = await db.main.collection("accounts").findOne({
           $or: [{ email }, { username }],
         });
+
         if (existing) {
           return {
-            error: mapError("User already exists", "USER_EXISTS"),
+            token: null,
+            user: null,
+            error: { code: "USER_EXISTS", message: "User already exists" },
           };
         }
 
@@ -49,39 +45,49 @@ export const accountResolver = {
 
         return {
           token,
-          user: {
-            id: uid,
-            username,
-            email,
-          },
+          user: { uid, username, email },
+          error: null,
         };
       } catch (err) {
-        console.error("Signup failed:", err);
+        console.error("Signup resolver error:", err);
         return {
-          error: mapError("Internal server error", "SIGNUP_FAILED"),
+          token: null,
+          user: null,
+          error: { code: "SIGNUP_FAILED", message: err.message },
         };
       }
     },
 
     signin: async (_, { input }, { db }) => {
-      try {
-        const { identifier, password } = input;
+      const { identifier, password } = input;
 
+      try {
         // 1️⃣ Find user
         const user = await db.main.collection("accounts").findOne({
           $or: [{ email: identifier }, { username: identifier }],
         });
+
         if (!user) {
           return {
-            error: mapError("Invalid credentials", "INVALID_CREDENTIALS"),
+            token: null,
+            user: null,
+            error: {
+              code: "INVALID_CREDENTIALS",
+              message: "Invalid credentials",
+            },
           };
         }
 
-        // 2️⃣ Check password
+        // 2️⃣ Verify password
         const valid = await bcrypt.compare(password, user.password);
         if (!valid) {
           return {
-            error: mapError("Invalid credentials", "INVALID_CREDENTIALS"),
+            token: null,
+            user: null,
+            error: {
+              code: "INVALID_CREDENTIALS",
+              message: "Invalid credentials",
+            },
           };
         }
 
@@ -92,16 +98,15 @@ export const accountResolver = {
 
         return {
           token,
-          user: {
-            uid: user._id,
-            username: user.username,
-            email: user.email,
-          },
+          user: { uid: user._id, username: user.username, email: user.email },
+          error: null,
         };
       } catch (err) {
-        console.error("Signin failed:", err);
+        console.error("Signin resolver error:", err);
         return {
-          error: mapError("Internal server error", "SIGNIN_FAILED"),
+          token: null,
+          user: null,
+          error: { code: "SIGNIN_FAILED", message: err.message },
         };
       }
     },
