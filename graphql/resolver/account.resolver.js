@@ -7,9 +7,9 @@ const JWT_SECRET = process.env.JWT_SECRET || "super-secret";
 
 export const accountResolver = {
   Mutation: {
-    signup: async (_, { input }, { db }) => {
+    signup: async (_, { input }, context) => {
       const { username, email, password } = input;
-      console.log(db);
+      console.log(context);
 
       // 1. Check if user exists in main.users
       const existing = await db.main.collection("users").findOne({
