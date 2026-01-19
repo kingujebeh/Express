@@ -1,15 +1,15 @@
 // /graphql/resolvers/account.resolver.js
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { v4 as uuidv4 } from "uuid";
+import { v7 as uuidv7 } from "uuid";
 
 const JWT_SECRET = process.env.JWT_SECRET || "super-secret";
 
 export const accountResolver = {
   Mutation: {
     signup: async (_, { input }, context) => {
+      const { db } = context; // ✅ extract db from context
       const { username, email, password } = input;
-      console.log(context);
 
       // 1. Check if user exists in main.users
       const existing = await db.main.collection("users").findOne({
@@ -22,8 +22,8 @@ export const accountResolver = {
       // 2. Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // 3. Generate a UUID without dashes for _id
-      const userId = uuidv4().replace(/-/g, "");
+      // 3. Generate a UUID v7 without dashes
+      const userId = uuidv7().replace(/-/g, "");
 
       // 4. Insert user into main.users
       const userRecord = {
@@ -48,7 +48,8 @@ export const accountResolver = {
       };
     },
 
-    signin: async (_, { input }, { db }) => {
+    signin: async (_, { input }, context) => {
+      const { db } = context; // ✅ extract db
       const { identifier, password } = input;
 
       // 1. Find user by email or username in main.users

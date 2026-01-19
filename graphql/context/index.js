@@ -2,27 +2,24 @@
 import { getDatabases } from "../service/db.js";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "super-secret";
+export const context = async ({ req }) => {
+  // 1. Connect to your databases
+  const db = await getDatabases(); // main, products, institutions, web
 
-export const context = ({ req }) => {
-  // 1️⃣ Always get the databases
-  const db = getDatabases();
+  // 2. Extract token from headers
+  const token = req.headers.authorization?.replace("Bearer ", "");
 
-  // 2️⃣ Check for JWT token in Authorization header
-  const authHeader = req.headers.authorization || "";
-  const token = authHeader.replace("Bearer ", "");
-
-  let uid = null;
-
+  // 3. Decode token if it exists
+  let uid;
   if (token) {
     try {
-      const decoded = jwt.verify(token, JWT_SECRET);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || "super-secret");
       uid = decoded.userId;
     } catch (err) {
-      console.warn("⚠️ Invalid JWT token", err.message);
+      console.warn("⚠️ Invalid JWT token:", err.message);
     }
   }
 
-  // 3️⃣ Return db and uid for all resolvers
+  // 4. Return context object
   return { db, uid };
 };
