@@ -1,3 +1,4 @@
+import { getDatabases } from "../service/db.js";
 import jwt from "jsonwebtoken";
 
 export const context = ({ req }) => {
