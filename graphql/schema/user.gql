@@ -28,9 +28,15 @@ input SignInInput {
 }
 
 type AuthPayload {
-  token: String!         # access token
-  refreshToken: String!  # refresh token
-  user: User!
+  token: String       # remove the "!" to allow null
+  refreshToken: String
+  user: User
+  error: TGUError
+}
+
+type TGUError {
+  code: String!
+  message: String!
 }
 
 type Mutation {
