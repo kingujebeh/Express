@@ -8,6 +8,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "super-secret";
 export const accountResolver = {
   Mutation: {
     signup: async (_, { input }, context) => {
+      console.log(context)
       const { db } = context; // ✅ extract db from context
       const { username, email, password } = input;
 
