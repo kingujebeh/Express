@@ -27,10 +27,10 @@
 <script setup>
   import { useRouter } from "vue-router";
   import pluralize from "pluralize";
-  import { useAppStore } from "../store";
+  import { useStore } from "../store";
   
   const router = useRouter();
-  const { name, data } = useAppStore();
+  const { name, data } = useStore();
   
   const entities = data;
   

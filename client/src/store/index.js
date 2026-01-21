@@ -7,12 +7,19 @@ import { SIGNUP } from "../graphql/mutations/signup.js";
 
 export const useStore = defineStore("auth", {
   state: () => ({
+    name: "the-great-unknown",
     user: null,
     token: localStorage.getItem("token"),
     isAuthenticated: !!localStorage.getItem("token"),
+    app: {
+      initialized: false,
+    },
   }),
 
   actions: {
+    init() {
+      this.app.initialized = true;
+    },
     async signin(payload) {
       const { mutate } = useMutation(SIGNIN);
 

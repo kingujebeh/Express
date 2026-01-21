@@ -1,15 +1,9 @@
 import { WebSocketServer } from "ws";
 
-export default function initLudoWS(server) {
+export default function createLudoWSS() {
     const wss = new WebSocketServer({ noServer: true });
 
-    server.on("upgrade", (req, socket, head) => {
-        if (req.url === "/ludo") {
-            wss.handleUpgrade(req, socket, head, (ws) => {
-                wss.emit("connection", ws, req);
-            });
-        }
-    });
+    // Server upgrade handled centrally
 
     wss.on("connection", (ws) => {
         console.log("🎲 Ludo client connected");

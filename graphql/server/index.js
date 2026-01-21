@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { typeDefs } from "../schema/index.js";
@@ -11,7 +13,7 @@ const server = new ApolloServer({
 });
 
 const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
+  listen: { port: 3000 },
 });
 
 console.log(`🚀 Apollo Server ready at ${url}`);

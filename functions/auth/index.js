@@ -5,13 +5,13 @@ import jwt from "jsonwebtoken";
 const oracle = process.env.ORACLE;
 
 // Helper to get user from your database
- const getUser = async (sub) => await db.users.findOne({ googleId: sub });
+const getUser = async (sub) => await db.users.findOne({ googleId: sub });
 
 // Helper to verify your app JWT
- const verifyJWT = (token) => jwt.verify(token, getSecret("JWT_SECRET"));
+const verifyJWT = (token) => jwt.verify(token, getSecret("JWT_ACCESS_SECRET"));
 
 // Sign in using Google OAuth code
- const signin = async (code) => {
+const signin = async (code) => {
   try {
     // Exchange authorization code for tokens
     const tokenRes = await axios.post("https://oauth2.googleapis.com/token", {
@@ -26,7 +26,7 @@ const oracle = process.env.ORACLE;
 
     // Decode ID token (JWT) to get Google user info
     const googleUser = JSON.parse(
-      Buffer.from(id_token.split(".")[1], "base64").toString()
+      Buffer.from(id_token.split(".")[1], "base64").toString(),
     );
 
     const user = {
@@ -37,7 +37,7 @@ const oracle = process.env.ORACLE;
     };
 
     // Create your app JWT
-    const jwtToken = jwt.sign(user, getSecret("JWT_SECRET"), {
+    const jwtToken = jwt.sign(user, getSecret("JWT_ACCESS_SECRET"), {
       expiresIn: "30d",
     });
 
@@ -58,13 +58,16 @@ async function registerAccountSignIn(userId, appName) {
       {
         appName,
         userId,
-      }
+      },
     );
 
     console.log("Account Sign In Registered", data);
   } catch (error) {
-    console.error("Failed to register account signin:", error?.response?.data || error);
+    console.error(
+      "Failed to register account signin:",
+      error?.response?.data || error,
+    );
   }
 }
 
-export {}
+export {};

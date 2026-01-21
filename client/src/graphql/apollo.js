@@ -9,7 +9,7 @@ import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: "http://localhost:3000/graphql",
   headers: {
     authorization: localStorage.getItem("token")
       ? `Bearer ${localStorage.getItem("token")}`
@@ -19,8 +19,8 @@ const httpLink = new HttpLink({
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "ws://localhost:4000/graphql",
-  })
+    url: "ws://localhost:3000/graphql",
+  }),
 );
 
 const link = split(
@@ -31,7 +31,7 @@ const link = split(
     );
   },
   wsLink,
-  httpLink
+  httpLink,
 );
 
 export const apolloClient = new ApolloClient({

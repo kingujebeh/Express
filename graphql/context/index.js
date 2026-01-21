@@ -13,7 +13,7 @@ export const context = async ({ req }) => {
   let id;
   if (token) {
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || "super-secret");
+      const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
       id = decoded.userId;
     } catch (err) {
       console.warn("⚠️ Invalid JWT token:", err.message);

@@ -1,5 +1,5 @@
 import { createWebHistory, createRouter } from "vue-router";
-import { useAppStore } from "../store";
+import { useStore } from "../store";
 import routes from "./routes";
 
 const router = createRouter({
@@ -8,13 +8,13 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const app = useAppStore();
+  const { app, init } = useStore();
 
   // 1️⃣ Initialize workstation once
   if (!app.initialized) {
     try {
       console.log("Initializing App...");
-      await app.init();
+      await init();
     } catch (err) {
       console.error("App initialization failed:", err);
       return next(false);

@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch --import dotenv/config index.js",
-    "apollo": "node --watch --import dotenv/config graphql/server/index.js"
+    "dev": "node --watch  index.js",
+    "apollo": "node --watch  ./graphql/server/index.js",
+    "test": "vitest"
   },
   "author": "Augment Plus",
   "license": "ISC",
@@ -29,6 +30,7 @@
     "ws": "^8.19.0"
   },
   "devDependencies": {
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "vitest": "^4.0.17"
   }
 }

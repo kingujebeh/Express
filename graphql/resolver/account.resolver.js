@@ -3,11 +3,15 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { v7 as uuidv7 } from "uuid";
 
-const JWT_SECRET = process.env.JWT_SECRET || "super-secret";
+const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } = process.env;
 
 async function generateTokens(userId) {
-  const accessToken = jwt.sign({ id: userId }, JWT_SECRET, { expiresIn: "15m" });
-  const refreshToken = uuidv7().replace(/-/g, ""); // long random string
+  const accessToken = jwt.sign({ id: userId }, JWT_ACCESS_SECRET, {
+    expiresIn: "15m",
+  });
+  const refreshToken = jwt.sign({ id: userId }, JWT_REFRESH_SECRET, {
+    expiresIn: "30d",
+  });
   return { accessToken, refreshToken };
 }
 
@@ -55,10 +59,9 @@ export const accountResolver = {
         const { accessToken, refreshToken } = await generateTokens(id);
 
         // 6️⃣ Save refresh token in DB
-        await db.main.collection("accounts").updateOne(
-          { _id: id },
-          { $set: { refreshToken } }
-        );
+        await db.main
+          .collection("accounts")
+          .updateOne({ _id: id }, { $set: { refreshToken } });
 
         return {
           token: accessToken,
@@ -94,7 +97,10 @@ export const accountResolver = {
             token: null,
             refreshToken: null,
             user: null,
-            error: { code: "INVALID_CREDENTIALS", message: "Invalid credentials" },
+            error: {
+              code: "INVALID_CREDENTIALS",
+              message: "Invalid credentials",
+            },
           };
         }
 
@@ -105,7 +111,10 @@ export const accountResolver = {
             token: null,
             refreshToken: null,
             user: null,
-            error: { code: "INVALID_CREDENTIALS", message: "Invalid credentials" },
+            error: {
+              code: "INVALID_CREDENTIALS",
+              message: "Invalid credentials",
+            },
           };
         }
 
@@ -113,10 +122,9 @@ export const accountResolver = {
         const { accessToken, refreshToken } = await generateTokens(user._id);
 
         // 4️⃣ Update refresh token in DB
-        await db.main.collection("accounts").updateOne(
-          { _id: user._id },
-          { $set: { refreshToken } }
-        );
+        await db.main
+          .collection("accounts")
+          .updateOne({ _id: user._id }, { $set: { refreshToken } });
 
         return {
           token: accessToken,
@@ -141,14 +149,19 @@ export const accountResolver = {
     refreshToken: async (_, { token }, { db }) => {
       try {
         // 1️⃣ Find user by refresh token
-        const user = await db.main.collection("accounts").findOne({ refreshToken: token });
+        const user = await db.main
+          .collection("accounts")
+          .findOne({ refreshToken: token });
 
         if (!user) {
           return {
             token: null,
             refreshToken: null,
             user: null,
-            error: { code: "INVALID_REFRESH", message: "Invalid refresh token" },
+            error: {
+              code: "INVALID_REFRESH",
+              message: "Invalid refresh token",
+            },
           };
         }
 
@@ -156,10 +169,9 @@ export const accountResolver = {
         const { accessToken, refreshToken } = await generateTokens(user._id);
 
         // 3️⃣ Update refresh token in DB
-        await db.main.collection("accounts").updateOne(
-          { _id: user._id },
-          { $set: { refreshToken } }
-        );
+        await db.main
+          .collection("accounts")
+          .updateOne({ _id: user._id }, { $set: { refreshToken } });
 
         return {
           token: accessToken,
