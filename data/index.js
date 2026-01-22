@@ -1,18 +1,11 @@
 // data/index.js
 
-const domains = {
-  pro: ["creatyve3d.pro"],
-  store: ["yatsar.store"],
-  shop: [],
-  krane: ["gkrane.online"],
-  community: [],
-};
-
 const softwares = {
   dotproperty: ["augmentplus.space"],
-  dotstore: [],
-  dotpro: [],
+  dotstore: ["yatsar.store"],
+  dotpro: ["creatyve3d.pro"],
   dotshop: [],
+  krane: ["gkrane.online"],
 };
 
-export { domains, softwares };
+export { softwares };

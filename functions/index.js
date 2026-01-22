@@ -2,10 +2,10 @@
 import path from "path";
 import { Storage } from "@google-cloud/storage";
 
-import { domains } from "../data/index.js";
+import { softwares } from "../data/index.js";
 
-export function getSubname(domain) {
-  return Object.keys(domains).find((key) => domains[key].includes(domain));
+export function getSubname(host) {
+  return Object.keys(softwares).find((key) => softwares[key].includes(host));
 }
 
 const storage = new Storage({
