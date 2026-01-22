@@ -27,7 +27,7 @@ export function getFile(subname = "the-great-unknown", reqPath = "/") {
   const hasExt = path.extname(cleaned) !== "";
   const filePath = hasExt ? cleaned : "index.html";
 
-  return bucket.file(path.join("client", "dist", subname, filePath));
+  return bucket.file(path.join("clients", subname, filePath));
 }
 
 export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
