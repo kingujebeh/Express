@@ -3,9 +3,16 @@
 const domains = {
   pro: ["creatyve3d.pro"],
   store: ["yatsar.store"],
-  shop: ["osasengineering.shop"],
+  shop: [],
   krane: ["gkrane.online"],
-  community: ["augmentplus.space"],
+  community: [],
 };
 
-export { domains };
+const softwares = {
+  dotproperty: ["augmentplus.space"],
+  dotstore: [],
+  dotpro: [],
+  dotshop: [],
+};
+
+export { domains, softwares };
