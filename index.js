@@ -54,9 +54,6 @@ app.use(
   }),
 );
 
-// Catch-all fallback
-app.use(express.static(path.join(__dirname, "client/dist")));
-app.use(serveClientFallback);
 app.use((req, res, next) => home(req, res, next));
 
 // -----------------------------
