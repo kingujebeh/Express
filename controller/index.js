@@ -4,10 +4,8 @@ import mime from "mime-types";
 
 import * as fn from "../functions/index.js";
 
-const subdomains = process.env.SUBDOMAINS
-  ? process.env.SUBDOMAINS.split(",")
-  : ["i", "handyman", "handyfix", "fairpay"];
-
+const subdomains = process.env.SUBDOMAINS.split(",")
+  
 const home = async (req, res, next) => {
   async function sendFile(subname, filePath) {
     try {
