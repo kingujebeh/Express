@@ -7,7 +7,6 @@ import express from "express";
 import { fileURLToPath } from "url";
 
 import middlewares from "./middlewares/index.js";
-import serveClientFallback from "./middlewares/domains.js";
 import { home } from "./controller/index.js";
 
 // WS servers
@@ -51,7 +50,7 @@ app.use(
   express.json(),
   expressMiddleware(apollo, {
     context,
-  }),
+  })
 );
 
 app.use((req, res, next) => home(req, res, next));
