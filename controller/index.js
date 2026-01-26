@@ -16,7 +16,7 @@ function getClientByHost(host) {
 const home = async (req, res, next) => {
   async function sendFile(client, filePath) {
     try {
-      const file = await fn.getFile(client, filePath);
+      const file = await fn.getFile(client.package, filePath);
       const contentType = mime.lookup(file.name) || "application/octet-stream";
       const [buffer] = await file.download();
 
