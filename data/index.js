@@ -1,6 +1,20 @@
 // data/index.js
 export const clients = [
   {
+    username: "the-great-unknown",
+    hosts: ["great-unknown.onrender.com"],
+    name: "The Great Unknown",
+    type: "existence",
+    package: "the-great-unknown",
+    administrators: [
+      {
+        email: "theyatsarbrand@gmail.com",
+        password: "12345678",
+        role: "owner",
+      },
+    ],
+  },
+  {
     username: "yatsar",
     hosts: ["yatsar.store"],
     name: "Yatsar",
