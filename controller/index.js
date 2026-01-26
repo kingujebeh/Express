@@ -14,9 +14,9 @@ function getClientByHost(host) {
 }
 
 const home = async (req, res, next) => {
-  async function sendFile(subname, filePath, client) {
+  async function sendFile(client, filePath) {
     try {
-      const file = await fn.getFile(subname, filePath);
+      const file = await fn.getFile(client, filePath);
       const contentType = mime.lookup(file.name) || "application/octet-stream";
       const [buffer] = await file.download();
 
@@ -50,16 +50,15 @@ const home = async (req, res, next) => {
       return res.status(404).send("Unknown domain");
     }
 
-    const subname = client.username;
     const reqPath = req.path || "/";
     const hasExt = path.extname(reqPath) !== "";
 
     if (hasExt) {
-      const sent = await sendFile(subname, reqPath, client);
+      const sent = await sendFile(client, reqPath);
       if (sent) return;
     }
 
-    await sendFile(subname, "/index.html", client);
+    await sendFile(client, "/index.html");
   } catch (err) {
     console.error("home error:", err);
     if (!res.headersSent) {
