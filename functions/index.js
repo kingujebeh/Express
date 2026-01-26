@@ -2,10 +2,11 @@
 import path from "path";
 import { Storage } from "@google-cloud/storage";
 
-import { softwares } from "../data/index.js";
+import { clients } from "../data/index.js";
 
 export function getSubname(host) {
-  return Object.keys(softwares).find((key) => softwares[key].includes(host));
+  const client = clients.find((c) => c.hosts.includes(host));
+  return client ? client.package : null;
 }
 
 const storage = new Storage({
@@ -31,5 +32,3 @@ export function getFile(subname = "the-great-unknown", reqPath = "/") {
 }
 
 export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-
-export const emailToUsername = (email) => "";

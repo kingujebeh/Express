@@ -1,5 +1,5 @@
 // /graphql/context.js
-import { getDatabases } from "../service/db.js";
+// import { getDatabases } from "../service/db.js";
 import jwt from "jsonwebtoken";
 
 export const context = async ({ req }) => {
