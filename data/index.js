@@ -57,6 +57,34 @@ export const clients = [
     ],
   },
   {
+    username: "zendaa",
+    hosts: ["zendaa.gkrane.online"],
+    name: "Zendaa",
+    type: "finance",
+    package: "finance",
+    administrators: [
+      {
+        email: "theyatsarbrand@gmail.com",
+        password: "12345678",
+        role: "owner",
+      },
+    ],
+  },
+  {
+    username: "kora",
+    hosts: ["kora.gkrane.online"],
+    name: "Kora",
+    type: "finance",
+    package: "finance",
+    administrators: [
+      {
+        email: "theyatsarbrand@gmail.com",
+        password: "12345678",
+        role: "owner",
+      },
+    ],
+  },
+  {
     username: "creatyve3d",
     hosts: ["creatyve3d.pro"],
     name: "Creative 3D",

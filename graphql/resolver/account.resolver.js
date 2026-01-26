@@ -1,7 +1,6 @@
 // /graphql/resolvers/account.resolver.js
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { Query } from "mongoose";
 import { v7 as uuidv7 } from "uuid";
 
 const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } = process.env;
@@ -18,10 +17,11 @@ async function generateTokens(userId) {
 
 export const accountResolver = {
   Query: {
-    client: async ({ username }) => {
+    client: async (_, { username }, { db }) => {
       return {
         id: "xxx",
         name: "xxx",
+        username: "xxxx",
       };
     },
   },
