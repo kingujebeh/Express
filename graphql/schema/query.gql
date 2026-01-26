@@ -1,4 +1,6 @@
 type Query {
+  client(username: String!): Client
+
   products: [Product!]!
   product(id: ID!): Product
 

@@ -6,6 +6,8 @@ import path from "path";
 import express from "express";
 import { fileURLToPath } from "url";
 
+import { init } from "./core/index.js";
+
 import middlewares from "./middlewares/index.js";
 import { home } from "./controller/index.js";
 
@@ -21,38 +23,57 @@ import { expressMiddleware } from "@apollo/server/express4";
 import { typeDefs } from "./graphql/schema/index.js";
 import { resolvers } from "./graphql/resolver/index.js";
 import { context } from "./graphql/context/index.js"; // ✅ your existing context
-// import { connectDatabases } from "./graphql/service/db.js";
-
-// -----------------------------
-// Connect to databases
-// -----------------------------
-// await connectDatabases(); // { main, products, institutions, web }
 
 // -----------------------------
 // Express setup
 // -----------------------------
 const app = express();
 app.set("trust proxy", true);
-app.use(middlewares);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+await init();
+
+app.use(middlewares);
+
 // -----------------------------
-// Apollo GraphQL Server
+// Apollo GraphQL Server with error logging
 // -----------------------------
-const apollo = new ApolloServer({ typeDefs, resolvers });
+const apollo = new ApolloServer({
+  typeDefs,
+  resolvers,
+  plugins: [
+    {
+      async requestDidStart() {
+        return {
+          async didEncounterErrors(requestContext) {
+            console.error(
+              "🚨 Apollo Server encountered errors:",
+              requestContext.errors
+            );
+          },
+        };
+      },
+    },
+  ],
+});
 await apollo.start();
 
-// Pass context correctly here
-app.use(
-  "/graphql",
-  express.json(),
-  expressMiddleware(apollo, {
-    context,
-  })
-);
+// Pass context correctly
+app.use("/graphql", express.json(), expressMiddleware(apollo, { context }));
 
+// -----------------------------
+// Express error logging middleware (catch-all)
+// -----------------------------
+app.use((err, req, res, next) => {
+  console.error("💥 Express ERROR:", err.stack || err);
+  res.status(500).json({ message: "Internal Server Error" });
+});
+
+// -----------------------------
+// Default route
+// -----------------------------
 app.use((req, res, next) => home(req, res, next));
 
 // -----------------------------
@@ -74,7 +95,7 @@ server.on("upgrade", (req, socket, head) => {
       const user = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
       req.user = user;
     } catch (err) {
-      console.warn("Invalid WS token provided");
+      console.warn("⚠️ Invalid WS token provided");
     }
   }
 
@@ -96,5 +117,5 @@ server.on("upgrade", (req, socket, head) => {
 });
 
 server.listen(PORT, () => {
-  console.log("Unknown Server Running on port", PORT);
+  console.log("✅ Unknown Server Running on port", PORT);
 });

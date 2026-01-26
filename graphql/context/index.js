@@ -1,25 +1,27 @@
 // /graphql/context.js
-// import { getDatabases } from "../service/db.js";
 import jwt from "jsonwebtoken";
+import { accounts, products, institutions, stores } from "../../db/index.js";
 
 export const context = async ({ req }) => {
-  // 1. Connect to your databases
-  const db = await getDatabases(); // main, products, institutions, web
+  console.log("✅ Context created:");
 
-  // 2. Extract token from headers
-  const token = req.headers.authorization?.replace("Bearer ", "");
+  try {
+    // 2️⃣ Extract token
+    const token = req.headers.authorization?.replace("Bearer ", "");
 
-  // 3. Decode token if it exists
-  let id;
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-      id = decoded.userId;
-    } catch (err) {
-      console.warn("⚠️ Invalid JWT token:", err.message);
+    let id = null;
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+        id = decoded.userId;
+      } catch (err) {
+        console.warn("⚠️ Invalid JWT token:", err.message);
+      }
     }
-  }
 
-  // 4. Return context object
-  return { db, id };
+    return { db: { accounts, institutions, products, stores }, id };
+  } catch (err) {
+    console.error("🚨 GraphQL CONTEXT ERROR:", err);
+    throw err; // This will propagate to Apollo and log a 500
+  }
 };

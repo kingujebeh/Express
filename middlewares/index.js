@@ -18,10 +18,12 @@ const httpsRedirect = (req, res, next) => {
 // Array of middlewares to use globally
 const middlewares = [
   httpsRedirect,
-  cors(),
+  cors({
+    origin: true,
+    credentials: true,
+  }),
   morgan("tiny"),
   cookieParser(),
-  express.json(),
 ];
 
 export default middlewares;
