@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { v7 as uuidv7 } from "uuid";
 
-const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } = process.env;
+const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, VITE_DEVELOPMENT_KEY } =
+  process.env;
 
 async function generateTokens(userId) {
   const accessToken = jwt.sign({ id: userId }, JWT_ACCESS_SECRET, {
@@ -17,11 +18,30 @@ async function generateTokens(userId) {
 
 export const accountResolver = {
   Query: {
-    client: async (_, { username }, { db }) => {
+    client: async (_, { username, key }, { host, db }) => {
+      let client;
+
+      if (username && key === process.env.VITE_DEVELOPMENT_KEY) {
+        console.log("DEV MODE Client", username);
+
+        client = await db.accounts.models.Client.findOne({ username });
+      } else {
+        console.log("PROD MODE Host", host);
+
+        client = await db.accounts.models.Client.findOne({
+          hosts: host,
+        });
+      }
+
+      if (!client) {
+        throw new Error("Client not found");
+      }
+
       return {
-        id: "xxx",
-        name: "xxx",
-        username: "xxxx",
+        id: client._id,
+        name: client.name,
+        username: client.username,
+        type: client.type,
       };
     },
   },

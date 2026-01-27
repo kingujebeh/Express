@@ -1,5 +1,5 @@
 type Query {
-  client(username: String): Client
+  client(username: String, key: String): Client
 
   products: [Product!]!
   product(id: ID!): Product

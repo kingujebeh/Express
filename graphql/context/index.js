@@ -19,7 +19,10 @@ export const context = async ({ req }) => {
       }
     }
 
-    return { db: { accounts, institutions, products, stores }, id };
+    return {
+      host: req.hostname,
+      db: { accounts, institutions, products, stores },
+    };
   } catch (err) {
     console.error("🚨 GraphQL CONTEXT ERROR:", err);
     throw err; // This will propagate to Apollo and log a 500
