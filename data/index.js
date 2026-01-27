@@ -1,4 +1,12 @@
 // data/index.js
+let explore = [
+  { id: "womens-suit", name: "Women's Suit" },
+  { id: "designer-collection", name: "Designer Collection" },
+  { id: "spring-collection", name: "Spring Collection" },
+  { id: "new-arrivals", name: "New Arrivals" },
+  { id: "top-trends", name: "Top Trends" },
+];
+
 export const clients = [
   {
     username: "the-great-unknown",
@@ -20,6 +28,9 @@ export const clients = [
     name: "Yatsar",
     type: "cosmetics-store",
     package: "dotstore",
+    content: {
+      explore,
+    },
     administrators: [
       {
         email: "theyatsarbrand@gmail.com",
@@ -34,6 +45,10 @@ export const clients = [
     name: "Velar",
     type: "fashion-store",
     package: "dotstore",
+    content: {
+      explore,
+    },
+
     administrators: [
       {
         email: "theyatsarbrand@gmail.com",
@@ -48,6 +63,7 @@ export const clients = [
     name: "Comfie Furniture",
     type: "furniture-store",
     package: "dotstore",
+    content: {},
     administrators: [
       {
         email: "theyatsarbrand@gmail.com",
@@ -140,12 +156,4 @@ export const clients = [
       },
     ],
   },
-];
-
-let explore = [
-  { id: "womens-suit", name: "Women's Suit" },
-  { id: "designer-collection", name: "Designer Collection" },
-  { id: "spring-collection", name: "Spring Collection" },
-  { id: "new-arrivals", name: "New Arrivals" },
-  { id: "top-trends", name: "Top Trends" },
 ];

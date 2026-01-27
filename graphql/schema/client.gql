@@ -1,6 +1,8 @@
+scalar JSON
+
 type Client {
   id: ID!
-  username: String!
   name: String!
-  hosts: [String!]!
+  username: String!
+  content: JSON
 }

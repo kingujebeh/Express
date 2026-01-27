@@ -42,6 +42,7 @@ export const accountResolver = {
         name: client.name,
         username: client.username,
         type: client.type,
+        content: client.content,
       };
     },
   },

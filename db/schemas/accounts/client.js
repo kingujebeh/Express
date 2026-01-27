@@ -17,7 +17,7 @@ const clientSchema = new mongoose.Schema(
     hosts: [String],
     type: String,
     package: String,
-
+    content: {},
     administrators: [
       {
         email: { type: String, required: true },
