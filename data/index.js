@@ -14,6 +14,76 @@ export const clients = [
     name: "The Great Unknown",
     type: "existence",
     package: "the-great-unknown",
+    content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/home",
+            },
+            {
+              label: "Settings",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/settings",
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+    },
+    administrators: [
+      {
+        email: "theyatsarbrand@gmail.com",
+        password: "12345678",
+        role: "owner",
+      },
+    ],
+  },
+  {
+    username: "games",
+    hosts: ["games.gkrane.online"],
+    name: "Gamer",
+    type: "games",
+    package: "games",
+    content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/home",
+            },
+            {
+              label: "Profile",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/profile",
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+    },
     administrators: [
       {
         email: "theyatsarbrand@gmail.com",
@@ -29,6 +99,109 @@ export const clients = [
     type: "cosmetics-store",
     package: "dotstore",
     content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/home",
+            },
+            {
+              label: "Shop",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/shop",
+            },
+            {
+              label: "Wishlist",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/wishlist",
+            },
+            {
+              label: "Cart",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/cart",
+            },
+            {
+              label: "Profile",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/profile",
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+
+      explore,
+    },
+    administrators: [
+      {
+        email: "theyatsarbrand@gmail.com",
+        password: "12345678",
+        role: "owner",
+      },
+    ],
+  },
+  {
+    username: "famtex",
+    hosts: ["famtex.gkrane.online"],
+    name: "Famtex",
+    type: "finance",
+    package: "finance",
+    content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/home",
+            },
+            {
+              label: "Settings",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/settings",
+            },
+            {
+              label: "Profile",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/profile",
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+
       explore,
     },
     administrators: [
@@ -46,6 +219,57 @@ export const clients = [
     type: "fashion-store",
     package: "dotstore",
     content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/home",
+            },
+            {
+              label: "Explore",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/explore",
+            },
+            {
+              label: "Wishlist",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/wishlist",
+            },
+            {
+              label: "Cart",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/cart",
+            },
+            {
+              label: "Profile",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/profile",
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+
       explore,
     },
 
@@ -63,7 +287,50 @@ export const clients = [
     name: "Comfie Furniture",
     type: "furniture-store",
     package: "dotstore",
-    content: {},
+    content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/home",
+            },
+            {
+              label: "Wishlist",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/wishlist",
+            },
+            {
+              label: "Settings",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/settings",
+            },
+            {
+              label: "Profile",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/profile",
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+    },
     administrators: [
       {
         email: "theyatsarbrand@gmail.com",
@@ -78,6 +345,50 @@ export const clients = [
     name: "Spendly",
     type: "expense-tracker",
     package: "expense-tracker",
+    content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/home",
+            },
+            {
+              label: "Transactions",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/transactions",
+            },
+            {
+              label: "Analytics",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/analytics",
+            },
+            {
+              label: "Account",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/account",
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+    },
     administrators: [
       {
         email: "theyatsarbrand@gmail.com",
@@ -92,6 +403,43 @@ export const clients = [
     name: "Zendaa",
     type: "finance",
     package: "finance",
+    content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/home",
+            },
+            {
+              label: "Profile",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/profile",
+            },
+            {
+              label: "Settings",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/settings",
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+    },
+
     administrators: [
       {
         email: "theyatsarbrand@gmail.com",
@@ -106,6 +454,51 @@ export const clients = [
     name: "Kora",
     type: "finance",
     package: "finance",
+    content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/home",
+            },
+            {
+              label: "Wallet",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/wallet",
+            },
+            {
+              label: "Instigts",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/instigts",
+            },
+            {
+              label: "Me",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/me",
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+    },
+
     administrators: [
       {
         email: "theyatsarbrand@gmail.com",
@@ -120,6 +513,43 @@ export const clients = [
     name: "Creative 3D",
     type: "professional",
     package: "dotpro",
+    content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Projects",
+              route: "/projects",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+            },
+            {
+              label: "About",
+              route: "/about",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+            },
+            {
+              label: "Contact",
+              route: "/contact",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+    },
+
     administrators: [
       {
         email: "theyatsarbrand@gmail.com",
@@ -134,6 +564,43 @@ export const clients = [
     name: "Bolt Investment",
     type: "property-investment",
     package: "dotproperty",
+    content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/home",
+            },
+            {
+              label: "Settings",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/settings",
+            },
+            {
+              label: "Profile",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/profile",
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+    },
+
     administrators: [
       {
         email: "theyatsarbrand@gmail.com",
@@ -148,6 +615,107 @@ export const clients = [
     name: "Genesis Krane",
     type: "krane",
     package: "krane",
+    content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Apps",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/apps",
+            },
+            {
+              label: "Games",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/games",
+            },
+            {
+              label: "Settings",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/settings",
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+    },
+
+    administrators: [
+      {
+        email: "genesiskrane@gmail.com",
+        password: "12345678",
+        role: "owner",
+      },
+    ],
+  },
+
+  {
+    username: "fairpay",
+    hosts: ["fairpay.gkrane.online"],
+    name: "Fairpay",
+    type: "payment-splitter",
+    package: "payment-splitter",
+    content: {
+      navigation: {
+        drawer: {
+          bottom: [
+            {
+              label: "Home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/home",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+            },
+            {
+              label: "Split",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/split",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+            },
+            {
+              label: "Settings",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+              route: "/settings",
+              icon: {
+                active: "fairpay-pie-filled.png",
+                inactive: "fairpay-pie-outline.png",
+              },
+            },
+          ],
+        },
+        sidebar: {
+          left: [],
+        },
+        top: [],
+      },
+    },
+
     administrators: [
       {
         email: "genesiskrane@gmail.com",

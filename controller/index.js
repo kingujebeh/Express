@@ -5,8 +5,6 @@ import mime from "mime-types";
 import * as fn from "../functions/index.js";
 import { clients } from "../data/index.js";
 
-const subdomains = process.env.SUBDOMAINS.split(",");
-
 function getClientByHost(host) {
   return clients.find((client) =>
     client.hosts.some((h) => host === h || host.endsWith(h))
