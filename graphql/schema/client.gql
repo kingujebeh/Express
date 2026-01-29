@@ -4,5 +4,6 @@ type Client {
   id: ID!
   name: String!
   username: String!
+  type: String!
   content: JSON
 }

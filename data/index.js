@@ -96,7 +96,7 @@ export const clients = [
     username: "yatsar",
     hosts: ["yatsar.store"],
     name: "Yatsar",
-    type: "cosmetics-store",
+    type: "cosmetics",
     package: "dotstore",
     content: {
       navigation: {
@@ -216,7 +216,7 @@ export const clients = [
     username: "velar",
     hosts: ["velar.gkrane.online"],
     name: "Velar",
-    type: "fashion-store",
+    type: "fashion",
     package: "dotstore",
     content: {
       navigation: {
@@ -567,35 +567,41 @@ export const clients = [
     content: {
       navigation: {
         drawer: {
-          bottom: [
-            {
-              label: "Home",
-              icon: {
-                active: "fairpay-pie-filled.png",
-                inactive: "fairpay-pie-outline.png",
-              },
-              route: "/home",
-            },
-            {
-              label: "Settings",
-              icon: {
-                active: "fairpay-pie-filled.png",
-                inactive: "fairpay-pie-outline.png",
-              },
-              route: "/settings",
-            },
-            {
-              label: "Profile",
-              icon: {
-                active: "fairpay-pie-filled.png",
-                inactive: "fairpay-pie-outline.png",
-              },
-              route: "/profile",
-            },
-          ],
+          bottom: [],
         },
         sidebar: {
-          left: [],
+          left: [
+            {
+              label: "Dashboard",
+              icon: "",
+              link: "/dashboard",
+            },
+            {
+              label: "Business Suites",
+              icon: "",
+              link: "/dashboard",
+            },
+            {
+              label: "Rental Incomes",
+              icon: "",
+              link: "/dashboard",
+            },
+            {
+              label: "Fractional Owners",
+              icon: "",
+              link: "/settings",
+            },
+            {
+              label: "Plaza Projects",
+              icon: "",
+              link: "/settings",
+            },
+            {
+              label: "Investment Performance",
+              icon: "",
+              link: "/settings",
+            },
+          ],
         },
         top: [],
       },
