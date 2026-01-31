@@ -83,6 +83,26 @@ export const clients = [
         },
         top: [],
       },
+      games: [
+        {
+          id: "chess",
+          name: "Chess",
+          image:
+            "https://storage.googleapis.com/great-unknown.appspot.com/images/games/chess/cover.png",
+        },
+        {
+          id: "ludo",
+          name: "Ludo",
+          image:
+            "https://storage.googleapis.com/great-unknown.appspot.com/images/games/ludo/cover.png",
+        },
+        {
+          id: "monopoly",
+          name: "Monopoly",
+          image:
+            "https://storage.googleapis.com/great-unknown.appspot.com/images/games/monopoly/cover.png",
+        },
+      ],
     },
     administrators: [
       {
@@ -475,12 +495,12 @@ export const clients = [
               route: "/wallet",
             },
             {
-              label: "Instigts",
+              label: "Insights",
               icon: {
                 active: "fairpay-pie-filled.png",
                 inactive: "fairpay-pie-outline.png",
               },
-              route: "/instigts",
+              route: "/insights",
             },
             {
               label: "Me",

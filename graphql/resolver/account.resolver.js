@@ -45,6 +45,76 @@ export const accountResolver = {
         content: client.content,
       };
     },
+    user: async () => {
+      return {
+        id: "123",
+        username: "test",
+        email: "123@abc.com",
+        createdAt: Date.now(),
+        transactions: [
+          {
+            type: "network",
+            amount: 100,
+            date: Date.now(),
+            status: "success",
+            recipient: "07069199000",
+            network: {
+              name: "MTN",
+              code: "MTN",
+              imgURL: "mtn.png",
+            },
+          },
+          {
+            type: "network",
+            amount: 100,
+            date: Date.now(),
+            status: "success",
+            recipient: "07069199000",
+            network: {
+              name: "MTN",
+              code: "MTN",
+              imgURL: "mtn.png",
+            },
+          },
+          {
+            type: "network",
+            amount: 100,
+            date: Date.now(),
+            status: "success",
+            recipient: "07069199000",
+            network: {
+              name: "MTN",
+              code: "MTN",
+              imgURL: "mtn.png",
+            },
+          },
+          {
+            type: "network",
+            amount: 100,
+            date: Date.now(),
+            status: "success",
+            recipient: "07069199000",
+            network: {
+              name: "MTN",
+              code: "MTN",
+              imgURL: "mtn.png",
+            },
+          },
+          {
+            type: "network",
+            amount: 100,
+            date: Date.now(),
+            status: "success",
+            recipient: "07069199000",
+            network: {
+              name: "MTN",
+              code: "MTN",
+              imgURL: "mtn.png",
+            },
+          },
+        ],
+      };
+    },
   },
   Mutation: {
     /**

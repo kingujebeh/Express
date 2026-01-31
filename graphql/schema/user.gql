@@ -1,8 +1,11 @@
+scalar JSON
+
 type User {
   id: ID!
   username: String!
   email: String!
   createdAt: String!
+  transactions: JSON
 }
 
 input SignUpInput {
@@ -17,7 +20,7 @@ input SignInInput {
 }
 
 type AuthPayload {
-  token: String       # remove the "!" to allow null
+  token: String # remove the "!" to allow null
   refreshToken: String
   user: User
   error: TGUError

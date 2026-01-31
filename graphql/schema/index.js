@@ -5,11 +5,11 @@ const load = (file) =>
   readFileSync(join(process.cwd(), "graphql/schema", file), "utf8");
 
 export const typeDefs = `
-${load("user.gql")}
+${load("query.gql")}
 ${load("client.gql")}
+${load("user.gql")}
 ${load("product.gql")}
 ${load("place.gql")}
 ${load("institution.gql")}
-${load("query.gql")}
 ${load("mutation.gql")}
 `;
